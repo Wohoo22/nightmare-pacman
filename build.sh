@@ -1,1 +1,1 @@
-git pull && docker build . -t cms-backend
+git pull && docker build . -t operation-data
