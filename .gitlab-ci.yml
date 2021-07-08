@@ -1,0 +1,41 @@
+variables:
+  IMAGE: hub.saobang.vn/nextpay/nextcam-cloud-operation-data
+  DOCKER_DRIVER: overlay2
+  CONTAINER_NAME: nextcam-cloud-operation-data
+
+stages:
+  - build
+  - deploy
+
+before_script:
+  - echo $CI_COMMIT_SHORT_SHA
+  - docker login -u $HUB_USER -p $HUB_PASS $HUB_REGISTRY
+
+build-dev:
+  stage: build
+  tags:
+    - runner-150-17
+  script:
+    - docker build -t $IMAGE:dev-$CI_COMMIT_SHORT_SHA .
+
+  only:
+    - develop
+
+deploy-dev:
+  stage: deploy
+  tags:
+    - runner-150-17
+
+  script:
+    - docker push $IMAGE:dev-$CI_COMMIT_SHORT_SHA
+    - git clone http://$GITLAB_USER:$GITLAB_ACCESS_TOKEN@gitlab.saobang.vn/nextpay1/nextpay-devops-management/argocd/nextcam-dev.git nextcam-chart
+    - cd nextcam-chart
+    - docker run --rm --user="root" -e TAG=dev-$CI_COMMIT_SHORT_SHA -v "${PWD}":/workspace -w /workspace mikefarah/yq eval '.nextcam.nextcam-cloud-operation-data.image.tag = strenv(TAG)' -i values-dev.yaml
+    - git config --global user.email "np-devops@mpos.vn"
+    - git config --global user.name "DevOps Team"
+    - git add .
+    - git commit -m "[DevOps] Update nextcam-cloud-operation-data image tag dev-$CI_COMMIT_SHORT_SHA"
+    - git push --set-upstream origin master
+
+  only:
+    - develop
