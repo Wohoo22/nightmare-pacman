@@ -12,9 +12,9 @@ const httpCode = {
   ADMIN_REQUIRE: 406
 }
 const customerUserServiceConfig = {
-  customerUserToken: process.env.CUSTOMER_USER_TOKEN || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoic2ktYmFja2VuZCIsImlhdCI6MTYyNTIwMTUwNiwiZXhwIjo0NzgwOTYxNTA2fQ.EWAibq87KjWRal4NdE9DEMpp9Po5yjUtqwdvSY0yJD4',
-  url: process.env.CUSTOMER_USER_URL || 'http://localhost:8006',
-  customerBackenUrl: process.env.CUSTOMER_BACKEND_URL || 'http://localhost:8007'
+  customerUserToken: process.env.USER_DATA_TOKEN || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoic2ktYmFja2VuZCIsImlhdCI6MTYyNTIwMTUwNiwiZXhwIjo0NzgwOTYxNTA2fQ.EWAibq87KjWRal4NdE9DEMpp9Po5yjUtqwdvSY0yJD4',
+  url: process.env.PERMISSION_USER_URL || 'http://localhost:8006',
+  customerBackenUrl: process.env.USER_DATA_URL || 'http://localhost:8007'
 }
 const defaultResource = [
   {
