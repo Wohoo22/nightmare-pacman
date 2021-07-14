@@ -8,7 +8,7 @@ module.exports = (joi, mongoose, { joi2MongoSchema, schemas }) => {
   }
   const merchantJoi = joi.object({
     ten: joi.string().required(),
-    mact: joi.string().pattern(/^[a-zA-Z0-9]{2,20}$/).required(),
+    mact: joi.string().pattern(/^[a-zA-Z0-9]{2,30}$/).required(),
     nguoiDaiDien: joi.string().allow(''),
     maSoThue: joi.string().allow(''),
     diaChi: joi.string().allow(''),

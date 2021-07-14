@@ -13,17 +13,16 @@ module.exports = (container) => {
   const { merchantRepo } = container.resolve('repo')
   const addMerchant = async (req, res) => {
     try {
-      const thoauoc = req.body
+      const data = req.body
       const {
         error,
         value
-      } = await schemaValidator(thoauoc, 'Merchant')
+      } = await schemaValidator(data, 'Merchant')
       if (error) {
         return res.status(httpCode.BAD_REQUEST).send({ msg: error.message })
       }
       value.createdBy = req.user._id
       const sp = await merchantRepo.addMerchant(value)
-      await beHelper.addShiftDefaultByMerchantId(sp._id)
       res.status(httpCode.CREATED).send(sp)
     } catch (e) {
       if (e.code === 11000) {
