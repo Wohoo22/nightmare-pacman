@@ -33,8 +33,9 @@ const joi2MongoSchema = (joiSchema, special = {}, schemaOnly = {}, joiOnly = {})
 }
 module.exports = container => {
   container.registerValue('ObjectId', mongoose.Types.ObjectId)
+  const config = container.resolve('config')
   const User = require('./user.model')(joi, mongoose, { joi2MongoSchema })
-  const Merchant = require('./merchant.model')(joi, mongoose, { joi2MongoSchema })
+  const Merchant = require('./merchant.model')(joi, mongoose, { joi2MongoSchema }, config)
   const CustomerUser = require('./customerUser.model')(joi, mongoose, { joi2MongoSchema })
   const schemas = { Merchant, CustomerUser, User }
   const schemaValidator = (obj, type) => {

@@ -1,5 +1,6 @@
-module.exports = (joi, mongoose, { joi2MongoSchema, schemas }) => {
+module.exports = (joi, mongoose, { joi2MongoSchema, schemas }, config) => {
   const { ObjectId } = mongoose.Types
+  const { uuidv4 } = config.serverHelper
   const licenseTypeConfig = {
     TIME: 1,
     CONTRACT: 2,
@@ -15,6 +16,7 @@ module.exports = (joi, mongoose, { joi2MongoSchema, schemas }) => {
     chucVu: joi.string().allow(''),
     lienHe: joi.string().allow(''),
     logo: joi.string().allow(''),
+    webhooks: joi.array().items(joi.string().trim().required()).default([])
   })
   const merchantSchema = joi2MongoSchema(merchantJoi, {
     mact: {
@@ -27,6 +29,10 @@ module.exports = (joi, mongoose, { joi2MongoSchema, schemas }) => {
     createdBy: { type: ObjectId },
     updatedBy: { type: ObjectId },
     updatedAt: { type: Number },
+    clientSecret: {
+      type: String,
+      default: () => uuidv4()
+    },
     createdAt: {
       type: Number,
       default: () => Math.floor(Date.now() / 1000)

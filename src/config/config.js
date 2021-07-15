@@ -77,6 +77,12 @@ const serverHelper = function () {
       return {}
     }
   }
+  function uuidv4 () {
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+      const r = Math.random() * 16 | 0; const v = c == 'x' ? r : (r & 0x3 | 0x8)
+      return v.toString(16)
+    })
+  }
 
   function decodeToken (token) {
     return jwt.decode(token)
@@ -110,7 +116,7 @@ const serverHelper = function () {
       .replace(/^(.)/, function ($1) { return $1.toLowerCase() })
   }
 
-  return { decodeToken, encryptPassword, verifyToken, genToken, getMerchantInfoFromMST }
+  return { decodeToken, encryptPassword, verifyToken, genToken, getMerchantInfoFromMST, uuidv4 }
 }
 module.exports = {
   dbSettings,
