@@ -60,20 +60,5 @@ module.exports = (container) => {
       res.status(httpCode.UNKNOWN_ERROR).json({})
     }
   }
-  const verifyWebhookMerchant = async (req, res) => {
-    try {
-      const { merchantId, webhookUrl } = req.body
-      const rs = await helper.verifyUrl2XX(webhookUrl)
-      if (rs.statusCode == 200 && merchantId && webhookUrl) {
-        const sp = await merchantRepo.updateMerchant(merchantId, { $addToSet: { webhooks: webhookUrl } })
-        res.status(httpCode.SUCCESS).send({ ok: true, msg: 'Thêm thành công !' })
-      } else {
-        res.status(httpCode.BAD_REQUEST).send({ ok: false, msg: 'Xác minh url không thành công. Vui lòng trả lại https status code 2xx' })
-      }
-    } catch (e) {
-      logger.e(e)
-      res.status(httpCode.UNKNOWN_ERROR).json({})
-    }
-  }
-  return { addMerchant, getMerchantDetail, getMerchantDetailById, verifyWebhookMerchant }
+  return { addMerchant, getMerchantDetail, getMerchantDetailById }
 }
