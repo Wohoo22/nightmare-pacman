@@ -41,6 +41,7 @@ module.exports = (container) => {
       if (merchant && merchant.activated) {
         return res.status(httpCode.SUCCESS).json(merchant)
       }
+      console.log(merchant)
       res.status(httpCode.BAD_REQUEST).json({ msg: 'Không tìm thấy' })
     } catch (e) {
       logger.e(e)
