@@ -1,7 +1,7 @@
 variables:
   IMAGE: hub.saobang.vn/nextpay/nextcam-cloud-operation-data
   DOCKER_DRIVER: overlay2
-  CONTAINER_NAME: nextcam-cloud-operation-data
+  YQ_IMAGE_TAG: sha256:551e82efdb7145eb7eeee70ab73ea8b2f4d171d89913dd97a26c4d22d46df6f4
 
 stages:
   - build
@@ -17,6 +17,7 @@ build-dev:
     - runner-150-17
   script:
     - docker build -t $IMAGE:dev-$CI_COMMIT_SHORT_SHA .
+    - docker push $IMAGE:dev-$CI_COMMIT_SHORT_SHA
 
   only:
     - develop
@@ -27,7 +28,6 @@ deploy-dev:
     - runner-150-17
 
   script:
-    - docker push $IMAGE:dev-$CI_COMMIT_SHORT_SHA
     - git clone http://$GITLAB_USER:$GITLAB_ACCESS_TOKEN@gitlab.saobang.vn/nextpay1/nextpay-devops-management/argocd/nextcam-dev.git nextcam-chart
     - cd nextcam-chart
     - docker run --rm --user="root" -e TAG=dev-$CI_COMMIT_SHORT_SHA -v "${PWD}":/workspace -w /workspace mikefarah/yq eval '.nextcam.nextcam-cloud-operation-data.image.tag = strenv(TAG)' -i values-dev.yaml
@@ -39,3 +39,29 @@ deploy-dev:
 
   only:
     - develop
+
+build-prod:
+  stage: build
+  before_script:
+    - docker login -u $HUB_USER -p $HUB_PASS $HUB_REGISTRY
+  script:
+    - docker build -t $IMAGE:$CI_COMMIT_TAG .
+    - docker push $IMAGE:$CI_COMMIT_TAG
+  only:
+    - tags
+
+deploy-prod:
+  stage: deploy
+  variables:
+    GIT_STRATEGY: none
+  script:
+    - git clone http://$GITLAB_USER:$GITLAB_ACCESS_TOKEN@gitlab.saobang.vn/nextpay1/nextpay-devops-management/argocd/nextcam-prod.git nextcam-chart && cd nextcam-chart
+    - docker run --rm --user="root" -e TAG=$CI_COMMIT_TAG -v "${PWD}":/workspace -w /workspace mikefarah/yq@$YQ_IMAGE_TAG eval '.nextcam.nextcam-cloud-operation-data.image.tag = strenv(TAG)' -i values-prod.yaml
+    - git config --global user.email "np-devops@mpos.vn"
+    - git config --global user.name "DevOps Team"
+    - git add .
+    - git commit -m "[BOT] Update  image nextcam-cloud-operation-data tag $CI_COMMIT_TAG"
+    - git push
+  only:
+    - tags
+  when: manual
