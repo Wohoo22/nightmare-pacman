@@ -33,6 +33,24 @@ module.exports = (container) => {
       res.status(httpCode.UNKNOWN_ERROR).end()
     }
   }
+  const updateMactMerchant = async (req, res) => {
+    try {
+      const { mact } = req.body
+      const { id } = req.params
+      if (mact && mact.trim()) {
+        const sp = await merchantRepo.updateMerchant(id, { mact })
+        return res.status(httpCode.CREATED).send(sp)
+      }
+      return res.status(httpCode.BAD_REQUEST).json({ msg: 'Mã công ty không để trống' })
+
+    } catch (e) {
+      if (e.code === 11000) {
+        return res.status(httpCode.BAD_REQUEST).json({ msg: 'Mã công ty đã tồn tại, vui lòng thử tên khác.' })
+      }
+      logger.e(e)
+      res.status(httpCode.UNKNOWN_ERROR).end()
+    }
+  }
   const getMerchantDetail = async (req, res) => {
     try {
       const { mact } = req.query
@@ -61,5 +79,5 @@ module.exports = (container) => {
       res.status(httpCode.UNKNOWN_ERROR).json({})
     }
   }
-  return { addMerchant, getMerchantDetail, getMerchantDetailById }
+  return { addMerchant, updateMactMerchant, getMerchantDetail, getMerchantDetailById }
 }
