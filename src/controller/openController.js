@@ -52,8 +52,22 @@ module.exports = (container) => {
   }
   const getMerchantDetail = async (req, res) => {
     try {
-      const { mact } = req.query
-      let merchant = await merchantRepo.findOne({ mact: (mact || '').toLowerCase() })
+      const search = { ...req.query }
+      const pipe = {}
+      Object.keys(search).forEach(i => {
+        const vl = search[i]
+        const pathType = (Merchant.schema.path(i) || {}).instance || ''
+        if (pathType.toLowerCase() === 'objectid') {
+          pipe[i] = ObjectId(vl)
+        } else if (pathType === 'Number') {
+          pipe[i] = +vl
+        } else if (pathType === 'String' && vl.constructor === String) {
+          pipe[i] = new RegExp(vl, 'gi')
+        } else {
+          pipe[i] = vl
+        }
+      })
+      let merchant = await merchantRepo.findOne(pipe)
       if (merchant && merchant.toObject) merchant = merchant.toObject()
       if (merchant && merchant.activated) {
         return res.status(httpCode.SUCCESS).json(merchant)
