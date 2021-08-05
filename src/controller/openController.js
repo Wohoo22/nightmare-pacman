@@ -38,6 +38,10 @@ module.exports = (container) => {
       const { alias } = req.body
       const { id } = req.params
       if (alias && alias.trim()) {
+        const merchant = await merchantRepo.findOne({ alias })
+        if (merchant) {
+          return res.status(httpCode.BAD_REQUEST).json({ msg: 'Alias công ty đã tồn tại' })
+        }
         const sp = await merchantRepo.updateMerchant(id, { alias })
         return res.status(httpCode.CREATED).send(sp)
       }
@@ -82,7 +86,8 @@ module.exports = (container) => {
   const getMerchantDetailById = async (req, res) => {
     try {
       const { id } = req.params
-      const merchant = (await merchantRepo.getMerchantById(id)).toObject()
+      let merchant = await merchantRepo.getMerchantById(id)
+      if (merchant && merchant.toObject) merchant = merchant.toObject()
       if (merchant && merchant.activated) {
         return res.status(httpCode.SUCCESS).json(merchant)
       }
