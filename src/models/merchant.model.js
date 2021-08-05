@@ -15,7 +15,8 @@ module.exports = (joi, mongoose, { joi2MongoSchema, schemas }, config) => {
     diaChi: joi.string().allow(''),
     chucVu: joi.string().allow(''),
     lienHe: joi.string().allow(''),
-    logo: joi.string().allow('')
+    logo: joi.string().allow(''),
+    alias: joi.string().allow('')
   })
   const merchantSchema = joi2MongoSchema(merchantJoi, {
     mact: {

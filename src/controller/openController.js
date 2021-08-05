@@ -8,7 +8,7 @@ module.exports = (container) => {
   const {
     schemaValidator,
     schemas: {
-      Merchant,
+      Merchant
     }
   } = container.resolve('models')
 
@@ -33,16 +33,15 @@ module.exports = (container) => {
       res.status(httpCode.UNKNOWN_ERROR).end()
     }
   }
-  const updateMactMerchant = async (req, res) => {
+  const updateAliasMerchant = async (req, res) => {
     try {
-      const { mact } = req.body
+      const { alias } = req.body
       const { id } = req.params
-      if (mact && mact.trim()) {
-        const sp = await merchantRepo.updateMerchant(id, { mact })
+      if (alias && alias.trim()) {
+        const sp = await merchantRepo.updateMerchant(id, { alias })
         return res.status(httpCode.CREATED).send(sp)
       }
-      return res.status(httpCode.BAD_REQUEST).json({ msg: 'Mã công ty không để trống' })
-
+      return res.status(httpCode.BAD_REQUEST).json({ msg: 'Alias công ty không để trống' })
     } catch (e) {
       if (e.code === 11000) {
         return res.status(httpCode.BAD_REQUEST).json({ msg: 'Mã công ty đã tồn tại, vui lòng thử tên khác.' })
@@ -79,5 +78,5 @@ module.exports = (container) => {
       res.status(httpCode.UNKNOWN_ERROR).json({})
     }
   }
-  return { addMerchant, updateMactMerchant, getMerchantDetail, getMerchantDetailById }
+  return { addMerchant, updateAliasMerchant, getMerchantDetail, getMerchantDetailById }
 }
