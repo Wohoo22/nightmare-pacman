@@ -9,7 +9,7 @@ module.exports = (joi, mongoose, { joi2MongoSchema, schemas }, config) => {
   }
   const merchantJoi = joi.object({
     ten: joi.string().required(),
-    mact: joi.string().pattern(/^[a-zA-Z0-9]{2,30}$/).required(),
+    // mact: joi.string().pattern(/^[a-zA-Z0-9]{2,30}$/).required(),
     nguoiDaiDien: joi.string().allow(''),
     maSoThue: joi.string().allow(''),
     diaChi: joi.string().allow(''),
@@ -19,12 +19,12 @@ module.exports = (joi, mongoose, { joi2MongoSchema, schemas }, config) => {
     alias: joi.string().allow('')
   })
   const merchantSchema = joi2MongoSchema(merchantJoi, {
-    mact: {
-      require: true,
-      unique: true,
-      lowercase: true,
-      trim: true
-    }
+    // mact: {
+    //   require: true,
+    //   unique: true,
+    //   lowercase: true,
+    //   trim: true
+    // }
   }, {
     createdBy: { type: ObjectId },
     updatedBy: { type: ObjectId },
