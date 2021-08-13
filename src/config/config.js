@@ -1,5 +1,5 @@
 const serverSettings = {
-  port: process.env.PORT || 8004,
+  port: process.env.PORT || 8080,
   basePath: process.env.BASE_PATH || ''
 }
 const httpCode = {
@@ -13,8 +13,8 @@ const httpCode = {
 }
 const customerUserServiceConfig = {
   customerUserToken: process.env.USER_DATA_TOKEN || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoic2ktYmFja2VuZCIsImlhdCI6MTYyNTIwMTUwNiwiZXhwIjo0NzgwOTYxNTA2fQ.EWAibq87KjWRal4NdE9DEMpp9Po5yjUtqwdvSY0yJD4',
-  url: process.env.PERMISSION_USER_URL || 'http://localhost:8006',
-  customerBackenUrl: process.env.USER_DATA_URL || 'http://localhost:8007'
+  url: process.env.PERMISSION_USER_URL || 'http://nextcam-cloud-permission-user:8080',
+  customerBackenUrl: process.env.USER_DATA_URL || 'http://nextcam-cloud-user-data:8080'
 }
 const defaultResource = [
   {

@@ -14,7 +14,7 @@ module.exports = (container) => {
       const user = await serverHelper.verifyToken(token)
       const { path } = req
       const option = {
-        uri: process.env.AUTHORIZATION_URL || 'http://localhost:8003/authorization',
+        uri: process.env.AUTHORIZATION_URL || 'http://nextcam-cloud-permission-operation:8080/authorization',
         json: {
           userId: user._id,
           path,
