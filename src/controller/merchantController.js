@@ -197,6 +197,33 @@ module.exports = (container) => {
     }
   }
 
+
+  const addMerchantApplications = async (req, res) => {
+    try {
+      const data = await merchantRepo.addMerchantApplication({
+        id: req.body.id,
+        applications: req.body.applications
+      })
+      res.status(httpCode.SUCCESS).send(
+        new response({
+          success: true,
+          code: httpCode.SUCCESS,
+          message: 'OK',
+          data: data
+        })
+      )
+    } catch (e) {
+      res.status(httpCode.UNKNOWN_ERROR).send(
+        new response({
+          success: false,
+          code: httpCode.UNKNOWN_ERROR,
+          message: e.message,
+          data: {}
+        })       
+      )
+    }
+  }
+
   return {
     addMerchant,
     getMerchant,
@@ -204,6 +231,7 @@ module.exports = (container) => {
     updateMerchant,
     deleteMerchant,
     getMerchantInfo,
-    deleteMerchantApplications
+    deleteMerchantApplications,
+    addMerchantApplications
   }
 }
