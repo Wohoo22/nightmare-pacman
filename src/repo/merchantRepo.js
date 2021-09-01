@@ -38,6 +38,34 @@ module.exports = container => {
   const removeMerchant = (pipe) => {
     return Merchant.deleteMany(pipe)
   }
+
+
+  const deleteMerchantApplications = async ({
+    id,
+    applications
+  }) => {
+    const filter = { _id: id }
+    const update = { $pullAll: { applications: applications }}
+    return await Merchant.findOneAndUpdate(
+      filter,
+      update,
+      { new: true }
+    )
+  }
+
+  const addMerchantApplication = async ({
+    id,
+    applications
+  }) => {
+    const filter = { _id: id }
+    const update = { $push: { applications: applications }}
+    return await Merchant.findOneAndUpdate(
+      filter, 
+      update, 
+      { new: true }
+    )
+  }
+
   return {
     findOne,
     getMerchantNoPaging,
@@ -49,6 +77,8 @@ module.exports = container => {
     updateMerchant,
     checkIdExist,
     getCount,
-    getMerchant
+    getMerchant,
+    addMerchantApplication,
+    deleteMerchantApplications
   }
 }
