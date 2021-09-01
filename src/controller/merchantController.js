@@ -3,6 +3,7 @@ module.exports = (container) => {
   const logger = container.resolve('logger')
   const beHelper = container.resolve('helper')
   const ObjectId = container.resolve('ObjectId')
+  const response = require('../models/response.model').Response
   const {
     schemaValidator,
     schemas: {
@@ -169,12 +170,40 @@ module.exports = (container) => {
       res.status(httpCode.UNKNOWN_ERROR).send({ ok: false })
     }
   }
+
+  const deleteMerchantApplications = async (req, res) => {
+    try {
+      const data = await merchantRepo.deleteMerchantApplications({
+        id: req.body.id,
+        applications: req.body.applications
+      })
+      res.status(httpCode.SUCCESS).send(
+        new response({
+          success: true,
+          code: httpCode.SUCCESS,
+          message: 'OK',
+          data: data
+        })
+      )
+    } catch (e) {
+      res.status(httpCode.UNKNOWN_ERROR).send(
+        new response({
+          success: false,
+          code: httpCode.UNKNOWN_ERROR,
+          message: e.message,
+          data: {}
+        })       
+      )
+    }
+  }
+
   return {
     addMerchant,
     getMerchant,
     getMerchantById,
     updateMerchant,
     deleteMerchant,
-    getMerchantInfo
+    getMerchantInfo,
+    deleteMerchantApplications
   }
 }
