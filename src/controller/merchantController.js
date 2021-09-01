@@ -178,9 +178,9 @@ module.exports = (container) => {
         applications: req.body.applications
       })
 
-      console.log('######### delete-merchant-applications')
-      console.log(data)
-      console.log('######### /delete-merchant-applications')
+      // console.log('######### delete-merchant-applications')
+      // console.log(data)
+      // console.log('######### /delete-merchant-applications')
 
       res.status(httpCode.SUCCESS).send(
         new Response({
@@ -218,9 +218,9 @@ module.exports = (container) => {
         applications: req.body.applications
       })
 
-      console.log('######### add-merchant-applications')
-      console.log(data)
-      console.log('######### /add-merchant-applications')
+      // console.log('######### add-merchant-applications')
+      // console.log(data)
+      // console.log('######### /add-merchant-applications')
 
       res.status(httpCode.SUCCESS).send(
         new Response({
