@@ -109,7 +109,7 @@ module.exports = (container) => {
       }
     } catch (e) {
       if (e.code === 11000) {
-        return res.status(httpCode.BAD_REQUEST).json({ msg: 'Mã công ty đã tồn tại, vui lòng thử tên khác.' })
+        return res.status(httpCode.BAD_REQUEST).json({ msg: 'Mã Merchant đã tồn tại, vui lòng thử mã khác.' })
       }
       logger.e(e)
       res.status(httpCode.UNKNOWN_ERROR).send({ ok: false })
