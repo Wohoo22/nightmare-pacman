@@ -1,3 +1,4 @@
+require('dotenv').config()
 const { initDI } = require('./di')
 const { name } = require('../package.json')
 const config = require('./config')
