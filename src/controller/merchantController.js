@@ -244,10 +244,10 @@ module.exports = (container) => {
 
   // addMerchantApplications({
   //   body: {
-  //     id: '6125c3f1ad96d5001346b9b9',
+  //     id: '60ee62aa434240001391b803',
   //     applications: [
-  //       'app1',
-  //       'app2'
+  //       'app3',
+  //       'app4'
   //     ]
   //   }
   // })
