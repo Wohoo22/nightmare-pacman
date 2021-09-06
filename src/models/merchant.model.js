@@ -16,16 +16,16 @@ module.exports = (joi, mongoose, { joi2MongoSchema, schemas }, config) => {
     chucVu: joi.string().allow(''),
     lienHe: joi.string().allow(''),
     logo: joi.string().allow(''),
-    alias: joi.string().allow(''),
+    alias: joi.string().pattern(/^[a-zA-Z0-9]{2,30}$/).required(),
     applications: joi.array()
   })
   const merchantSchema = joi2MongoSchema(merchantJoi, {
-    // mact: {
-    //   require: true,
-    //   unique: true,
-    //   lowercase: true,
-    //   trim: true
-    // }
+    alias: {
+      require: true,
+      unique: true,
+      lowercase: true,
+      trim: true
+    }
   }, {
     createdBy: { type: ObjectId },
     updatedBy: { type: ObjectId },
