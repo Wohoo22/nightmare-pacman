@@ -107,17 +107,17 @@ const serverHelper = function () {
     return crypto.createHash('sha256').update(password, 'binary').digest('base64')
   }
 
-  function stringToCamelCase (str) {
-    const from = 'àáãảạăằắẳẵặâầấẩẫậèéẻẽẹêềếểễệđùúủũụưừứửữựòóỏõọôồốổỗộơờớởỡợìíỉĩịäëïîöüûñçýỳỹỵỷ'
-    const to = 'aaaaaaaaaaaaaaaaaeeeeeeeeeeeduuuuuuuuuuuoooooooooooooooooiiiiiaeiiouuncyyyyy'
-    for (let i = 0, l = from.length; i < l; i++) {
-      str = str.replace(RegExp(from[i], 'gi'), to[i])
-    }
-    return str
-      .replace(/\s(.)/g, function ($1) { return $1.toUpperCase() })
-      .replace(/\s/g, '')
-      .replace(/^(.)/, function ($1) { return $1.toLowerCase() })
-  }
+  // function stringToCamelCase (str) {
+  //   const from = 'àáãảạăằắẳẵặâầấẩẫậèéẻẽẹêềếểễệđùúủũụưừứửữựòóỏõọôồốổỗộơờớởỡợìíỉĩịäëïîöüûñçýỳỹỵỷ'
+  //   const to = 'aaaaaaaaaaaaaaaaaeeeeeeeeeeeduuuuuuuuuuuoooooooooooooooooiiiiiaeiiouuncyyyyy'
+  //   for (let i = 0, l = from.length; i < l; i++) {
+  //     str = str.replace(RegExp(from[i], 'gi'), to[i])
+  //   }
+  //   return str
+  //     .replace(/\s(.)/g, function ($1) { return $1.toUpperCase() })
+  //     .replace(/\s/g, '')
+  //     .replace(/^(.)/, function ($1) { return $1.toLowerCase() })
+  // }
 
   return { decodeToken, encryptPassword, verifyToken, genToken, getMerchantInfoFromMST, uuidv4 }
 }

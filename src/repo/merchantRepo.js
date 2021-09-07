@@ -39,13 +39,12 @@ module.exports = container => {
     return Merchant.deleteMany(pipe)
   }
 
-
   const deleteMerchantApplications = async ({
     id,
     applications
   }) => {
     const filter = { _id: id }
-    const update = { $pullAll: { applications: applications }}
+    const update = { $pullAll: { applications: applications } }
     return await Merchant.findOneAndUpdate(
       filter,
       update,
@@ -58,10 +57,10 @@ module.exports = container => {
     applications
   }) => {
     const filter = { _id: id }
-    const update = { $push: { applications: applications }}
+    const update = { $push: { applications: applications } }
     return await Merchant.findOneAndUpdate(
-      filter, 
-      update, 
+      filter,
+      update,
       { new: true }
     )
   }
