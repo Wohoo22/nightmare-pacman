@@ -52,9 +52,11 @@ const dbSettings = {
   user: process.env.DB_USER || '',
   pass: process.env.DB_PASS || '',
   repl: process.env.DB_REPLS || '',
-  servers: (process.env.DB_SERVERS) ? process.env.DB_SERVERS.split(',') : [
-    '127.0.0.1:27017'
-  ]
+  servers: (process.env.DB_SERVERS)
+    ? process.env.DB_SERVERS.split(',')
+    : [
+        '127.0.0.1:27017'
+      ]
 }
 const serverHelper = function () {
   const jwt = require('jsonwebtoken')
@@ -79,7 +81,7 @@ const serverHelper = function () {
   }
   function uuidv4 () {
     return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
-      const r = Math.random() * 16 | 0; const v = c == 'x' ? r : (r & 0x3 | 0x8)
+      const r = Math.random() * 16 | 0; const v = c === 'x' ? r : (r & 0x3 | 0x8)
       return v.toString(16)
     })
   }
@@ -104,17 +106,17 @@ const serverHelper = function () {
     return crypto.createHash('sha256').update(password, 'binary').digest('base64')
   }
 
-  function stringToCamelCase (str) {
-    const from = 'àáãảạăằắẳẵặâầấẩẫậèéẻẽẹêềếểễệđùúủũụưừứửữựòóỏõọôồốổỗộơờớởỡợìíỉĩịäëïîöüûñçýỳỹỵỷ'
-    const to = 'aaaaaaaaaaaaaaaaaeeeeeeeeeeeduuuuuuuuuuuoooooooooooooooooiiiiiaeiiouuncyyyyy'
-    for (let i = 0, l = from.length; i < l; i++) {
-      str = str.replace(RegExp(from[i], 'gi'), to[i])
-    }
-    return str
-      .replace(/\s(.)/g, function ($1) { return $1.toUpperCase() })
-      .replace(/\s/g, '')
-      .replace(/^(.)/, function ($1) { return $1.toLowerCase() })
-  }
+  // function stringToCamelCase (str) {
+  //   const from = 'àáãảạăằắẳẵặâầấẩẫậèéẻẽẹêềếểễệđùúủũụưừứửữựòóỏõọôồốổỗộơờớởỡợìíỉĩịäëïîöüûñçýỳỹỵỷ'
+  //   const to = 'aaaaaaaaaaaaaaaaaeeeeeeeeeeeduuuuuuuuuuuoooooooooooooooooiiiiiaeiiouuncyyyyy'
+  //   for (let i = 0, l = from.length; i < l; i++) {
+  //     str = str.replace(RegExp(from[i], 'gi'), to[i])
+  //   }
+  //   return str
+  //     .replace(/\s(.)/g, function ($1) { return $1.toUpperCase() })
+  //     .replace(/\s/g, '')
+  //     .replace(/^(.)/, function ($1) { return $1.toLowerCase() })
+  // }
 
   return { decodeToken, encryptPassword, verifyToken, genToken, getMerchantInfoFromMST, uuidv4 }
 }

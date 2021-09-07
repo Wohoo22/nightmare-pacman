@@ -1,7 +1,7 @@
-const moment = require('moment')
+// const moment = require('moment')
 module.exports = (container) => {
   const logger = container.resolve('logger')
-  const beHelper = container.resolve('helper')
+  // const beHelper = container.resolve('helper')
   const ObjectId = container.resolve('ObjectId')
   const Response = require('../models/response.model').Response
   const {
@@ -47,7 +47,6 @@ module.exports = (container) => {
       res.status(httpCode.UNKNOWN_ERROR).send({ ok: false })
     }
   }
-
   const getMerchantInfo = async (req, res) => {
     try {
       const { mst } = req.query
@@ -75,20 +74,20 @@ module.exports = (container) => {
       res.status(httpCode.UNKNOWN_ERROR).send({ ok: false })
     }
   }
-  const getMerchantFromMST = async (req, res) => {
-    try {
-      const { mst } = req.query
-      if (mst) {
-        const merchant = await merchantRepo.getMerchantById(id)
-        res.status(httpCode.SUCCESS).send(merchant)
-      } else {
-        res.status(httpCode.BAD_REQUEST).end()
-      }
-    } catch (e) {
-      logger.e(e)
-      res.status(httpCode.UNKNOWN_ERROR).send({ ok: false })
-    }
-  }
+  // const getMerchantFromMST = async (req, res) => {
+  //   try {
+  //     const { mst } = req.query
+  //     if (mst) {
+  //       const merchant = await merchantRepo.getMerchantById(id)
+  //       res.status(httpCode.SUCCESS).send(merchant)
+  //     } else {
+  //       res.status(httpCode.BAD_REQUEST).end()
+  //     }
+  //   } catch (e) {
+  //     logger.e(e)
+  //     res.status(httpCode.UNKNOWN_ERROR).send({ ok: false })
+  //   }
+  // }
   const updateMerchant = async (req, res) => {
     try {
       const { id } = req.params
@@ -170,7 +169,6 @@ module.exports = (container) => {
       res.status(httpCode.UNKNOWN_ERROR).send({ ok: false })
     }
   }
-
   const deleteMerchantApplications = async (req, res) => {
     try {
       const data = await merchantRepo.deleteMerchantApplications({
@@ -201,7 +199,6 @@ module.exports = (container) => {
       )
     }
   }
-
   // deleteMerchantApplications({
   //   body: {
   //     id: '6125c3f1ad96d5001346b9b9',
@@ -210,7 +207,6 @@ module.exports = (container) => {
   //     ]
   //   }
   // })
-
   const addMerchantApplications = async (req, res) => {
     try {
       const data = await merchantRepo.addMerchantApplication({
@@ -241,7 +237,6 @@ module.exports = (container) => {
       )
     }
   }
-
   // addMerchantApplications({
   //   body: {
   //     id: '60ee62aa434240001391b803',
@@ -251,7 +246,6 @@ module.exports = (container) => {
   //     ]
   //   }
   // })
-
   return {
     addMerchant,
     getMerchant,
