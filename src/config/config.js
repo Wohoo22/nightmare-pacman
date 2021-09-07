@@ -14,7 +14,8 @@ const httpCode = {
 const customerUserServiceConfig = {
   customerUserToken: process.env.USER_DATA_TOKEN || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoic2ktYmFja2VuZCIsImlhdCI6MTYyNTIwMTUwNiwiZXhwIjo0NzgwOTYxNTA2fQ.EWAibq87KjWRal4NdE9DEMpp9Po5yjUtqwdvSY0yJD4',
   url: process.env.PERMISSION_USER_URL || 'http://nextcam-cloud-permission-user:8080',
-  customerBackenUrl: process.env.USER_DATA_URL || 'http://nextcam-cloud-user-data:8080'
+  customerBackenUrl: process.env.USER_DATA_URL || 'http://nextcam-cloud-user-data:8080',
+  nextcamUrl: process.env.NEXTCAM_URL || 'http://18.136.231.246:8080'
 }
 const defaultResource = [
   {
@@ -52,9 +53,11 @@ const dbSettings = {
   user: process.env.DB_USER || '',
   pass: process.env.DB_PASS || '',
   repl: process.env.DB_REPLS || '',
-  servers: (process.env.DB_SERVERS) ? process.env.DB_SERVERS.split(',') : [
-    '127.0.0.1:27017'
-  ]
+  servers: (process.env.DB_SERVERS)
+    ? process.env.DB_SERVERS.split(',')
+    : [
+        '127.0.0.1:27017'
+      ]
 }
 const serverHelper = function () {
   const jwt = require('jsonwebtoken')
@@ -79,7 +82,7 @@ const serverHelper = function () {
   }
   function uuidv4 () {
     return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
-      const r = Math.random() * 16 | 0; const v = c == 'x' ? r : (r & 0x3 | 0x8)
+      const r = Math.random() * 16 | 0; const v = c === 'x' ? r : (r & 0x3 | 0x8)
       return v.toString(16)
     })
   }
