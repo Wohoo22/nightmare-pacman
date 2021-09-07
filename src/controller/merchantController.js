@@ -3,6 +3,7 @@ module.exports = (container) => {
   const logger = container.resolve('logger')
   const beHelper = container.resolve('helper')
   const ObjectId = container.resolve('ObjectId')
+  const Response = require('../models/response.model').Response
   const {
     schemaValidator,
     schemas: {
@@ -109,7 +110,7 @@ module.exports = (container) => {
       }
     } catch (e) {
       if (e.code === 11000) {
-        return res.status(httpCode.BAD_REQUEST).json({ msg: 'Mã công ty đã tồn tại, vui lòng thử tên khác.' })
+        return res.status(httpCode.BAD_REQUEST).json({ msg: 'Mã Merchant đã tồn tại, vui lòng thử mã khác.' })
       }
       logger.e(e)
       res.status(httpCode.UNKNOWN_ERROR).send({ ok: false })
@@ -169,12 +170,96 @@ module.exports = (container) => {
       res.status(httpCode.UNKNOWN_ERROR).send({ ok: false })
     }
   }
+
+  const deleteMerchantApplications = async (req, res) => {
+    try {
+      const data = await merchantRepo.deleteMerchantApplications({
+        id: req.body.id,
+        applications: req.body.applications
+      })
+
+      // console.log('######### delete-merchant-applications')
+      // console.log(data)
+      // console.log('######### /delete-merchant-applications')
+
+      res.status(httpCode.SUCCESS).send(
+        new Response({
+          success: true,
+          code: httpCode.SUCCESS,
+          message: 'OK',
+          data: data
+        })
+      )
+    } catch (e) {
+      res.status(httpCode.UNKNOWN_ERROR).send(
+        new Response({
+          success: false,
+          code: httpCode.UNKNOWN_ERROR,
+          message: e.message,
+          data: {}
+        })
+      )
+    }
+  }
+
+  // deleteMerchantApplications({
+  //   body: {
+  //     id: '6125c3f1ad96d5001346b9b9',
+  //     applications: [
+  //       'app2'
+  //     ]
+  //   }
+  // })
+
+  const addMerchantApplications = async (req, res) => {
+    try {
+      const data = await merchantRepo.addMerchantApplication({
+        id: req.body.id,
+        applications: req.body.applications
+      })
+
+      // console.log('######### add-merchant-applications')
+      // console.log(data)
+      // console.log('######### /add-merchant-applications')
+
+      res.status(httpCode.SUCCESS).send(
+        new Response({
+          success: true,
+          code: httpCode.SUCCESS,
+          message: 'OK',
+          data: data
+        })
+      )
+    } catch (e) {
+      res.status(httpCode.UNKNOWN_ERROR).send(
+        new Response({
+          success: false,
+          code: httpCode.UNKNOWN_ERROR,
+          message: e.message,
+          data: {}
+        })
+      )
+    }
+  }
+
+  // addMerchantApplications({
+  //   body: {
+  //     id: '60ee62aa434240001391b803',
+  //     applications: [
+  //       'app3',
+  //       'app4'
+  //     ]
+  //   }
+  // })
+
   return {
     addMerchant,
     getMerchant,
     getMerchantById,
     updateMerchant,
     deleteMerchant,
-    getMerchantInfo
+    getMerchantInfo,
+    deleteMerchantApplications,
+    addMerchantApplications
   }
 }

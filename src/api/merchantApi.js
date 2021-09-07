@@ -8,4 +8,6 @@ module.exports = (app, container) => {
   app.put(`${basePath}/merchant/:id`, merchantController.updateMerchant)
   app.delete(`${basePath}/merchant/:id`, merchantController.deleteMerchant)
   app.post(`${basePath}/merchant`, merchantController.addMerchant)
+  app.post(`${basePath}/merchant/delete-applications`, merchantController.deleteMerchantApplications)
+  app.post(`${basePath}/merchant/add-applications`, merchantController.addMerchantApplications)
 }
