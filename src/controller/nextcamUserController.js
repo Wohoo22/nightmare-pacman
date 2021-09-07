@@ -10,7 +10,7 @@ module.exports = (container) => {
       const apiResponse = await beHelper.getNextCamUser(params)
       res.status(httpCode.SUCCESS).send({ ok: true, data: JSON.parse(apiResponse).data })
     } catch (e) {
-      logger.e('cameraController error: ', e.message)
+      logger.e('nextcamUserController error: ', e.message)
       res.status(httpCode.UNKNOWN_ERROR).json({ ok: false, msg: e.message })
     }
   }

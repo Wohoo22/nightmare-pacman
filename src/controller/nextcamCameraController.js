@@ -5,12 +5,12 @@ module.exports = (container) => {
 
   const getCamera = async (req, res) => {
     try {
-      const params = { ...req.query, isAdmin: req.headers.isAdmin ?? false }
+      const params = { ...req.query, isAdmin: req.headers['is-admin'] ?? false }
       // console.log('params: ', params)
-      const apiResponse = await beHelper.getCamera(params)
+      const apiResponse = await beHelper.getNextcamCamera(params)
       res.status(httpCode.SUCCESS).send({ ok: true, data: JSON.parse(apiResponse).data })
     } catch (e) {
-      logger.e('cameraController error: ', e.message)
+      logger.e('nextcamCameraController error: ', e.message)
       res.status(httpCode.UNKNOWN_ERROR).json({ ok: false, msg: e.message })
     }
   }
