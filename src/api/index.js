@@ -8,4 +8,5 @@ module.exports = (app, container) => {
   require('./customerUserApi')(app, container)
   require('./phanQuyenApi')(app, container)
   require('./cameraApi')(app, container)
+  require('./nextcamUserApi')(app, container)
 }

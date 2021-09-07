@@ -5,12 +5,14 @@ module.exports = (container) => {
   const dashboardController = require('./dashboardController')(container)
   const openController = require('./openController')(container)
   const cameraController = require('./cameraController')(container)
+  const nextcamUserController = require('./nextcamUserController')(container)
   return {
     dashboardController,
     phanQuyenController,
     merchantController,
     customerUserController,
     openController,
-    cameraController
+    cameraController,
+    nextcamUserController
   }
 }

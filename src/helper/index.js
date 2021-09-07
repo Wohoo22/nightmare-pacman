@@ -312,6 +312,21 @@ module.exports = (container) => {
     return data
   }
 
+  // @author: manhthd, 2021 September 7
+  const getNextCamUser = async (params) => {
+    const ADMIN_TOKEN = process.env.ADMIN_TOKEN || 'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0eXBlIjoiZnVsbCIsImlhdCI6MTYzMDAzNjQ2Mn0.kw1DC0jKhQh3kipcMmTDlzR3couZ_TcVrqgf_qx4cmd0pZyXd3pV6JiDIp1E0eY3FA34NKY4oh-7JQUqk6F5bKJrSJra3sayVRoPNwdyO09PMqBPlFF6yEdifSPK73KaUZ3cMcRB03mvoTsnypHqFxKzmiSQkNxYCGUPbItbQuc'
+    const VIEW_TOKEN = process.env.VIEW_TOKEN || 'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0eXBlIjoidmlldyIsImlhdCI6MTYzMDAzNjQyNn0.XMvnNzbJP6RWq8GKPHPUBS_S__5_t6kpKRGxH7bfpQN83TyD-lpezqZAVjviWWdwxYznvuZ6xM7wYj982G_Vy--J3JY9JKnFta159iT5woR9pDH_c83tS8Z8vjd4f8JAXhf0KyasseXXbjmauJZb6NSrFPYPg_EPPbzA3WoU81c'
+
+    const token = params.isAdmin ? ADMIN_TOKEN : VIEW_TOKEN
+    const options = {
+      headers: { Authorization: `Bearer ${token}` },
+      uri: `${customerUserServiceConfig.nextcamUrl}/user?${querystring.stringify(params)}`,
+      method: 'GET'
+    }
+    const data = await request(options)
+    return data
+  }
+
   return {
     addUser,
     updateUser,
@@ -324,6 +339,7 @@ module.exports = (container) => {
     getDashboard,
     addShiftDefaultByMerchantId,
     verifyUrl2XX,
-    getCamera
+    getCamera,
+    getNextCamUser
   }
 }
