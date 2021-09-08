@@ -55,7 +55,7 @@ module.exports = (joi, mongoose, { joi2MongoSchema, schemas }, config) => {
   }) => {
     return merchantJoi.validate(obj, config)
   }
-  merchantSchema.index({ merchantAlias: 1 }, { unique: true })
+  // merchantSchema.index({ merchantAlias: 1 }, { unique: true })
   const merchantModel = mongoose.model('Merchant', merchantSchema)
   merchantModel.syncIndexes()
   return merchantModel
