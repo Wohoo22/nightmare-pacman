@@ -22,8 +22,8 @@ module.exports = (container) => {
       if (error) {
         return res.status(httpCode.BAD_REQUEST).send({ msg: error.message })
       }
-      value.createdBy = req.user._id || ''
       console.log(req.user)
+      value.createdBy = req.user?._id || ''
       const sp = await merchantRepo.addMerchant(value)
       res.status(httpCode.CREATED).send(sp)
     } catch (e) {
