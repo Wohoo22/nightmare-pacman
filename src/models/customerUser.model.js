@@ -6,7 +6,8 @@ module.exports = (joi, mongoose) => {
     password: joi.string().min(1),
     activated: joi.number().valid(0, 1).default(1),
     isAdministrator: joi.number().valid(0, 1).default(0),
-    merchantId: joi.string().required()
+    merchantId: joi.string().required(),
+    merchantAlias: joi.string().required()
   })
   return {
     validateObj: (obj, options = {}) => {
