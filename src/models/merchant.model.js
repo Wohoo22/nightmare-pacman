@@ -9,14 +9,14 @@ module.exports = (joi, mongoose, { joi2MongoSchema, schemas }, config) => {
   }
   const merchantJoi = joi.object({
     ten: joi.string().required(),
-    // mact: joi.string().pattern(/^[a-zA-Z0-9]{2,30}$/).required(),
     nguoiDaiDien: joi.string().allow(''),
     maSoThue: joi.string().allow(''),
     diaChi: joi.string().allow(''),
     chucVu: joi.string().allow(''),
     lienHe: joi.string().allow(''),
     logo: joi.string().allow(''),
-    alias: joi.string().pattern(/^[a-zA-Z0-9]{2,30}$/).required(),
+    alias: joi.string().allow(''),
+    merchantAlias: joi.string().pattern(/^[a-zA-Z0-9]{2,30}$/).required(),
     applications: joi.array()
   })
   const merchantSchema = joi2MongoSchema(merchantJoi, {
@@ -55,6 +55,7 @@ module.exports = (joi, mongoose, { joi2MongoSchema, schemas }, config) => {
   }) => {
     return merchantJoi.validate(obj, config)
   }
+  merchantSchema.index({ merchantAlias: 1 }, { unique: true })
   const merchantModel = mongoose.model('Merchant', merchantSchema)
   merchantModel.syncIndexes()
   return merchantModel
