@@ -22,7 +22,7 @@ module.exports = (joi, mongoose, { joi2MongoSchema, schemas }, config) => {
   const merchantSchema = joi2MongoSchema(merchantJoi, {
     alias: {
       require: true,
-      unique: true,
+      // unique: true,
       lowercase: true,
       trim: true
     }
