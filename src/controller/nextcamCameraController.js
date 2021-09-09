@@ -13,7 +13,7 @@ module.exports = (container) => {
         .then(apiRepsonses => {
           const cameras = JSON.parse(apiRepsonses[0]).data
           const total = JSON.parse(apiRepsonses[1]).data.total
-          res.status(httpCode.SUCCESS).send({ ok: true, data: { cameras, total } })
+          res.status(httpCode.SUCCESS).send({ ok: true, data: { resourceDetails: cameras, total } })
         })
     } catch (e) {
       logger.e('nextcamCameraController error: ', e.message)
