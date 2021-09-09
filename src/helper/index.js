@@ -1,7 +1,7 @@
 const request = require('request-promise')
 const querystring = require('query-string')
 module.exports = (container) => {
-  const { customerUserServiceConfig, httpCode, defaultResource } =
+  const { customerUserServiceConfig, httpCode, defaultResource, nextcamResource } =
     container.resolve('config')
   const logger = container.resolve('logger')
   const accessToken = customerUserServiceConfig.customerUserToken
@@ -299,10 +299,7 @@ module.exports = (container) => {
 
   // @author: manhthd, 2021 August 31
   const getNextcamCamera = async (params) => {
-    const ADMIN_TOKEN = process.env.ADMIN_TOKEN || 'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0eXBlIjoiZnVsbCIsImlhdCI6MTYzMDAzNjQ2Mn0.kw1DC0jKhQh3kipcMmTDlzR3couZ_TcVrqgf_qx4cmd0pZyXd3pV6JiDIp1E0eY3FA34NKY4oh-7JQUqk6F5bKJrSJra3sayVRoPNwdyO09PMqBPlFF6yEdifSPK73KaUZ3cMcRB03mvoTsnypHqFxKzmiSQkNxYCGUPbItbQuc'
-    const VIEW_TOKEN = process.env.VIEW_TOKEN || 'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0eXBlIjoidmlldyIsImlhdCI6MTYzMDAzNjQyNn0.XMvnNzbJP6RWq8GKPHPUBS_S__5_t6kpKRGxH7bfpQN83TyD-lpezqZAVjviWWdwxYznvuZ6xM7wYj982G_Vy--J3JY9JKnFta159iT5woR9pDH_c83tS8Z8vjd4f8JAXhf0KyasseXXbjmauJZb6NSrFPYPg_EPPbzA3WoU81c'
-
-    const token = params.isAdmin ? ADMIN_TOKEN : VIEW_TOKEN
+    const token = params.isAdmin ? nextcamResource.ADMIN_TOKEN : nextcamResource.VIEW_TOKEN
     const options = {
       headers: { Authorization: `Bearer ${token}` },
       uri: `${customerUserServiceConfig.nextcamUrl}/camera?${querystring.stringify(params)}`,
@@ -314,10 +311,7 @@ module.exports = (container) => {
 
   // @author: manhthd, 2021 September 7
   const getNextcamUser = async (params) => {
-    const ADMIN_TOKEN = process.env.ADMIN_TOKEN || 'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0eXBlIjoiZnVsbCIsImlhdCI6MTYzMDAzNjQ2Mn0.kw1DC0jKhQh3kipcMmTDlzR3couZ_TcVrqgf_qx4cmd0pZyXd3pV6JiDIp1E0eY3FA34NKY4oh-7JQUqk6F5bKJrSJra3sayVRoPNwdyO09PMqBPlFF6yEdifSPK73KaUZ3cMcRB03mvoTsnypHqFxKzmiSQkNxYCGUPbItbQuc'
-    const VIEW_TOKEN = process.env.VIEW_TOKEN || 'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0eXBlIjoidmlldyIsImlhdCI6MTYzMDAzNjQyNn0.XMvnNzbJP6RWq8GKPHPUBS_S__5_t6kpKRGxH7bfpQN83TyD-lpezqZAVjviWWdwxYznvuZ6xM7wYj982G_Vy--J3JY9JKnFta159iT5woR9pDH_c83tS8Z8vjd4f8JAXhf0KyasseXXbjmauJZb6NSrFPYPg_EPPbzA3WoU81c'
-
-    const token = params.isAdmin ? ADMIN_TOKEN : VIEW_TOKEN
+    const token = params.isAdmin ? nextcamResource.ADMIN_TOKEN : nextcamResource.VIEW_TOKEN
     const options = {
       headers: { Authorization: `Bearer ${token}` },
       uri: `${customerUserServiceConfig.nextcamUrl}/user?${querystring.stringify(params)}`,
@@ -329,10 +323,7 @@ module.exports = (container) => {
 
   // @author: manhthd, 2021 September 9
   const countNextcamCamera = async (params) => {
-    const ADMIN_TOKEN = process.env.ADMIN_TOKEN || 'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0eXBlIjoiZnVsbCIsImlhdCI6MTYzMDAzNjQ2Mn0.kw1DC0jKhQh3kipcMmTDlzR3couZ_TcVrqgf_qx4cmd0pZyXd3pV6JiDIp1E0eY3FA34NKY4oh-7JQUqk6F5bKJrSJra3sayVRoPNwdyO09PMqBPlFF6yEdifSPK73KaUZ3cMcRB03mvoTsnypHqFxKzmiSQkNxYCGUPbItbQuc'
-    const VIEW_TOKEN = process.env.VIEW_TOKEN || 'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0eXBlIjoidmlldyIsImlhdCI6MTYzMDAzNjQyNn0.XMvnNzbJP6RWq8GKPHPUBS_S__5_t6kpKRGxH7bfpQN83TyD-lpezqZAVjviWWdwxYznvuZ6xM7wYj982G_Vy--J3JY9JKnFta159iT5woR9pDH_c83tS8Z8vjd4f8JAXhf0KyasseXXbjmauJZb6NSrFPYPg_EPPbzA3WoU81c'
-
-    const token = params.isAdmin ? ADMIN_TOKEN : VIEW_TOKEN
+    const token = params.isAdmin ? nextcamResource.ADMIN_TOKEN : nextcamResource.VIEW_TOKEN
     const options = {
       headers: { Authorization: `Bearer ${token}` },
       uri: `${customerUserServiceConfig.nextcamUrl}/camera-count`,
@@ -344,13 +335,34 @@ module.exports = (container) => {
 
   // @author: manhthd, 2021 September 9
   const countNextcamUser = async (params) => {
-    const ADMIN_TOKEN = process.env.ADMIN_TOKEN || 'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0eXBlIjoiZnVsbCIsImlhdCI6MTYzMDAzNjQ2Mn0.kw1DC0jKhQh3kipcMmTDlzR3couZ_TcVrqgf_qx4cmd0pZyXd3pV6JiDIp1E0eY3FA34NKY4oh-7JQUqk6F5bKJrSJra3sayVRoPNwdyO09PMqBPlFF6yEdifSPK73KaUZ3cMcRB03mvoTsnypHqFxKzmiSQkNxYCGUPbItbQuc'
-    const VIEW_TOKEN = process.env.VIEW_TOKEN || 'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0eXBlIjoidmlldyIsImlhdCI6MTYzMDAzNjQyNn0.XMvnNzbJP6RWq8GKPHPUBS_S__5_t6kpKRGxH7bfpQN83TyD-lpezqZAVjviWWdwxYznvuZ6xM7wYj982G_Vy--J3JY9JKnFta159iT5woR9pDH_c83tS8Z8vjd4f8JAXhf0KyasseXXbjmauJZb6NSrFPYPg_EPPbzA3WoU81c'
-
-    const token = params.isAdmin ? ADMIN_TOKEN : VIEW_TOKEN
+    const token = params.isAdmin ? nextcamResource.ADMIN_TOKEN : nextcamResource.VIEW_TOKEN
     const options = {
       headers: { Authorization: `Bearer ${token}` },
       uri: `${customerUserServiceConfig.nextcamUrl}/user-count`,
+      method: 'GET'
+    }
+    const data = await request(options)
+    return data
+  }
+
+  // @author: manhthd, 2021 September 9
+  const getNextcamCameraById = async (isAdmin, _id) => {
+    const token = isAdmin ? nextcamResource.ADMIN_TOKEN : nextcamResource.VIEW_TOKEN
+    const options = {
+      headers: { Authorization: `Bearer ${token}` },
+      uri: `${customerUserServiceConfig.nextcamUrl}/camera/${_id}`,
+      method: 'GET'
+    }
+    const data = await request(options)
+    return data
+  }
+
+  // @author: manhthd, 2021 September 9
+  const getNextcamUserById = async (isAdmin, _id) => {
+    const token = isAdmin ? nextcamResource.ADMIN_TOKEN : nextcamResource.VIEW_TOKEN
+    const options = {
+      headers: { Authorization: `Bearer ${token}` },
+      uri: `${customerUserServiceConfig.nextcamUrl}/user/${_id}`,
       method: 'GET'
     }
     const data = await request(options)
@@ -373,5 +385,7 @@ module.exports = (container) => {
     getNextcamUser,
     countNextcamCamera,
     countNextcamUser,
+    getNextcamCameraById,
+    getNextcamUserById,
   }
 }
