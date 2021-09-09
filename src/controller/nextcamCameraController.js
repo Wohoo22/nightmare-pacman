@@ -3,12 +3,18 @@ module.exports = (container) => {
   const { httpCode } = container.resolve('config')
   const beHelper = container.resolve('helper')
 
-  const getCamera = async (req, res) => {
+  const getCameraPaging = async (req, res) => {
     try {
       const params = { ...req.query, isAdmin: req.headers['is-admin'] || false }
       // console.log('params: ', params)
-      const apiResponse = await beHelper.getNextcamCamera(params)
-      res.status(httpCode.SUCCESS).send({ ok: true, data: JSON.parse(apiResponse).data })
+      const camerasPromise = beHelper.getNextcamCamera(params)
+      const totalPromise = beHelper.countNextcamCamera(params)
+      Promise.all([camerasPromise, totalPromise])
+        .then(apiRepsonses => {
+          const cameras = JSON.parse(apiRepsonses[0]).data
+          const total = JSON.parse(apiRepsonses[1]).data.total
+          res.status(httpCode.SUCCESS).send({ ok: true, data: { cameras, total } })
+        })
     } catch (e) {
       logger.e('nextcamCameraController error: ', e.message)
       res.status(httpCode.UNKNOWN_ERROR).json({ ok: false, msg: e.message })
@@ -16,6 +22,6 @@ module.exports = (container) => {
   }
 
   return {
-    getCamera
+    getCameraPaging
   }
 }

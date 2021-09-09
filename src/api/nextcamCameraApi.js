@@ -3,5 +3,5 @@ module.exports = (app, container) => {
   const { nextcamCameraController } = container.resolve('controller')
   const { basePath } = serverSettings
 
-  app.get(`${basePath}/nextcam-camera`, nextcamCameraController.getCamera)
+  app.get(`${basePath}/nextcam-camera`, nextcamCameraController.getCameraPaging)
 }
