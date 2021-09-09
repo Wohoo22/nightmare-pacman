@@ -32,6 +32,7 @@ module.exports = (container) => {
       } = await request(option)
       if (ok) {
         req.user = userAuthorization
+        console.log('authenticationMIddleware req.user', req.user)
         if (userAuthorization.readonly && req.method !== 'GET') {
           return res.status(httpCode.BAD_REQUEST).json({ msg: 'Bạn chỉ có quyền xem thông tin, không thể thực hiện được thao tác này.' })
         }

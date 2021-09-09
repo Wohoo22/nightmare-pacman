@@ -14,7 +14,8 @@ const httpCode = {
 const customerUserServiceConfig = {
   customerUserToken: process.env.USER_DATA_TOKEN || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoic2ktYmFja2VuZCIsImlhdCI6MTYyNTIwMTUwNiwiZXhwIjo0NzgwOTYxNTA2fQ.EWAibq87KjWRal4NdE9DEMpp9Po5yjUtqwdvSY0yJD4',
   url: process.env.PERMISSION_USER_URL || 'http://nextcam-cloud-permission-user:8080',
-  customerBackenUrl: process.env.USER_DATA_URL || 'http://nextcam-cloud-user-data:8080'
+  customerBackenUrl: process.env.USER_DATA_URL || 'http://nextcam-cloud-user-data:8080',
+  nextcamUrl: process.env.NEXTCAM_URL || 'http://18.136.231.246:8080'
 }
 const defaultResource = [
   {
@@ -52,9 +53,11 @@ const dbSettings = {
   user: process.env.DB_USER || '',
   pass: process.env.DB_PASS || '',
   repl: process.env.DB_REPLS || '',
-  servers: (process.env.DB_SERVERS) ? process.env.DB_SERVERS.split(',') : [
-    '127.0.0.1:27017'
-  ]
+  servers: (process.env.DB_SERVERS)
+    ? process.env.DB_SERVERS.split(',')
+    : [
+        '127.0.0.1:27017'
+      ]
 }
 const serverHelper = function () {
   const jwt = require('jsonwebtoken')
@@ -79,7 +82,7 @@ const serverHelper = function () {
   }
   function uuidv4 () {
     return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
-      const r = Math.random() * 16 | 0; const v = c == 'x' ? r : (r & 0x3 | 0x8)
+      const r = Math.random() * 16 | 0; const v = c === 'x' ? r : (r & 0x3 | 0x8)
       return v.toString(16)
     })
   }
@@ -104,25 +107,32 @@ const serverHelper = function () {
     return crypto.createHash('sha256').update(password, 'binary').digest('base64')
   }
 
-  function stringToCamelCase (str) {
-    const from = 'àáãảạăằắẳẵặâầấẩẫậèéẻẽẹêềếểễệđùúủũụưừứửữựòóỏõọôồốổỗộơờớởỡợìíỉĩịäëïîöüûñçýỳỹỵỷ'
-    const to = 'aaaaaaaaaaaaaaaaaeeeeeeeeeeeduuuuuuuuuuuoooooooooooooooooiiiiiaeiiouuncyyyyy'
-    for (let i = 0, l = from.length; i < l; i++) {
-      str = str.replace(RegExp(from[i], 'gi'), to[i])
-    }
-    return str
-      .replace(/\s(.)/g, function ($1) { return $1.toUpperCase() })
-      .replace(/\s/g, '')
-      .replace(/^(.)/, function ($1) { return $1.toLowerCase() })
-  }
+  // function stringToCamelCase (str) {
+  //   const from = 'àáãảạăằắẳẵặâầấẩẫậèéẻẽẹêềếểễệđùúủũụưừứửữựòóỏõọôồốổỗộơờớởỡợìíỉĩịäëïîöüûñçýỳỹỵỷ'
+  //   const to = 'aaaaaaaaaaaaaaaaaeeeeeeeeeeeduuuuuuuuuuuoooooooooooooooooiiiiiaeiiouuncyyyyy'
+  //   for (let i = 0, l = from.length; i < l; i++) {
+  //     str = str.replace(RegExp(from[i], 'gi'), to[i])
+  //   }
+  //   return str
+  //     .replace(/\s(.)/g, function ($1) { return $1.toUpperCase() })
+  //     .replace(/\s/g, '')
+  //     .replace(/^(.)/, function ($1) { return $1.toLowerCase() })
+  // }
 
   return { decodeToken, encryptPassword, verifyToken, genToken, getMerchantInfoFromMST, uuidv4 }
 }
+
+const nextcamResource = {
+  ADMIN_TOKEN: process.env.ADMIN_TOKEN || 'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0eXBlIjoiZnVsbCIsImlhdCI6MTYzMDAzNjQ2Mn0.kw1DC0jKhQh3kipcMmTDlzR3couZ_TcVrqgf_qx4cmd0pZyXd3pV6JiDIp1E0eY3FA34NKY4oh-7JQUqk6F5bKJrSJra3sayVRoPNwdyO09PMqBPlFF6yEdifSPK73KaUZ3cMcRB03mvoTsnypHqFxKzmiSQkNxYCGUPbItbQuc',
+  VIEW_TOKEN: process.env.VIEW_TOKEN || 'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0eXBlIjoidmlldyIsImlhdCI6MTYzMDAzNjQyNn0.XMvnNzbJP6RWq8GKPHPUBS_S__5_t6kpKRGxH7bfpQN83TyD-lpezqZAVjviWWdwxYznvuZ6xM7wYj982G_Vy--J3JY9JKnFta159iT5woR9pDH_c83tS8Z8vjd4f8JAXhf0KyasseXXbjmauJZb6NSrFPYPg_EPPbzA3WoU81c',
+}
+
 module.exports = {
   dbSettings,
   serverHelper: serverHelper(),
   serverSettings,
   httpCode,
   customerUserServiceConfig,
-  defaultResource
+  defaultResource,
+  nextcamResource,
 }

@@ -1,6 +1,7 @@
 const request = require('request-promise')
+const querystring = require('query-string')
 module.exports = (container) => {
-  const { customerUserServiceConfig, httpCode, defaultResource } =
+  const { customerUserServiceConfig, httpCode, defaultResource, nextcamResource } =
     container.resolve('config')
   const logger = container.resolve('logger')
   const accessToken = customerUserServiceConfig.customerUserToken
@@ -295,6 +296,79 @@ module.exports = (container) => {
       return { statusCode: httpCode.BAD_REQUEST, msg: '' }
     }
   }
+
+  // @author: manhthd, 2021 August 31
+  const getNextcamCamera = async (params) => {
+    const token = params.isAdmin ? nextcamResource.ADMIN_TOKEN : nextcamResource.VIEW_TOKEN
+    const options = {
+      headers: { Authorization: `Bearer ${token}` },
+      uri: `${customerUserServiceConfig.nextcamUrl}/camera?${querystring.stringify(params)}`,
+      method: 'GET'
+    }
+    const data = await request(options)
+    return data
+  }
+
+  // @author: manhthd, 2021 September 7
+  const getNextcamUser = async (params) => {
+    const token = params.isAdmin ? nextcamResource.ADMIN_TOKEN : nextcamResource.VIEW_TOKEN
+    const options = {
+      headers: { Authorization: `Bearer ${token}` },
+      uri: `${customerUserServiceConfig.nextcamUrl}/user?${querystring.stringify(params)}`,
+      method: 'GET'
+    }
+    const data = await request(options)
+    return data
+  }
+
+  // @author: manhthd, 2021 September 9
+  const countNextcamCamera = async (params) => {
+    const token = params.isAdmin ? nextcamResource.ADMIN_TOKEN : nextcamResource.VIEW_TOKEN
+    const options = {
+      headers: { Authorization: `Bearer ${token}` },
+      uri: `${customerUserServiceConfig.nextcamUrl}/camera-count`,
+      method: 'GET'
+    }
+    const data = await request(options)
+    return data
+  }
+
+  // @author: manhthd, 2021 September 9
+  const countNextcamUser = async (params) => {
+    const token = params.isAdmin ? nextcamResource.ADMIN_TOKEN : nextcamResource.VIEW_TOKEN
+    const options = {
+      headers: { Authorization: `Bearer ${token}` },
+      uri: `${customerUserServiceConfig.nextcamUrl}/user-count`,
+      method: 'GET'
+    }
+    const data = await request(options)
+    return data
+  }
+
+  // @author: manhthd, 2021 September 9
+  const getNextcamCameraById = async (isAdmin, _id) => {
+    const token = isAdmin ? nextcamResource.ADMIN_TOKEN : nextcamResource.VIEW_TOKEN
+    const options = {
+      headers: { Authorization: `Bearer ${token}` },
+      uri: `${customerUserServiceConfig.nextcamUrl}/camera/${_id}`,
+      method: 'GET'
+    }
+    const data = await request(options)
+    return data
+  }
+
+  // @author: manhthd, 2021 September 9
+  const getNextcamUserById = async (isAdmin, _id) => {
+    const token = isAdmin ? nextcamResource.ADMIN_TOKEN : nextcamResource.VIEW_TOKEN
+    const options = {
+      headers: { Authorization: `Bearer ${token}` },
+      uri: `${customerUserServiceConfig.nextcamUrl}/user/${_id}`,
+      method: 'GET'
+    }
+    const data = await request(options)
+    return data
+  }
+
   return {
     addUser,
     updateUser,
@@ -306,6 +380,12 @@ module.exports = (container) => {
     sendToCustomerAuth,
     getDashboard,
     addShiftDefaultByMerchantId,
-    verifyUrl2XX
+    verifyUrl2XX,
+    getNextcamCamera,
+    getNextcamUser,
+    countNextcamCamera,
+    countNextcamUser,
+    getNextcamCameraById,
+    getNextcamUserById,
   }
 }

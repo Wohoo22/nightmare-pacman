@@ -11,11 +11,11 @@ module.exports = (container) => {
   const beHelper = container.resolve('helper')
   const addCustomerUser = async (req, res) => {
     try {
-      const thoauoc = req.body
+      const userInfo = req.body
       const {
         error,
         value
-      } = await schemaValidator(thoauoc, 'CustomerUser')
+      } = await schemaValidator(userInfo, 'CustomerUser')
       if (error) {
         return res.status(httpCode.BAD_REQUEST).send({ msg: error.message })
       }
