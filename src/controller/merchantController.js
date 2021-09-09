@@ -175,7 +175,7 @@ module.exports = (container) => {
     try {
       const data = await merchantRepo.deleteMerchantApplications({
         id: req.body.id,
-        applications: req.body.applications
+        applicationIds: req.body.applicationIds
       })
 
       // console.log('######### delete-merchant-applications')
@@ -191,6 +191,7 @@ module.exports = (container) => {
         })
       )
     } catch (e) {
+      console.log(e)
       res.status(httpCode.UNKNOWN_ERROR).send(
         new Response({
           success: false,
@@ -204,23 +205,23 @@ module.exports = (container) => {
 
   // deleteMerchantApplications({
   //   body: {
-  //     id: '6125c3f1ad96d5001346b9b9',
-  //     applications: [
-  //       'app2'
+  //     id: '60ee62aa434240001391b803',
+  //     applicationIds: [
+  //       'app1'
   //     ]
   //   }
   // })
 
   const addMerchantApplications = async (req, res) => {
     try {
-      const data = await merchantRepo.addMerchantApplication({
+      const data = await merchantRepo.setMerchantApplications({
         id: req.body.id,
         applications: req.body.applications
       })
 
-      // console.log('######### add-merchant-applications')
-      // console.log(data)
-      // console.log('######### /add-merchant-applications')
+      console.log('######### add-merchant-applications')
+      console.log(data)
+      console.log('######### /add-merchant-applications')
 
       res.status(httpCode.SUCCESS).send(
         new Response({
@@ -231,6 +232,7 @@ module.exports = (container) => {
         })
       )
     } catch (e) {
+      console.log(e)
       res.status(httpCode.UNKNOWN_ERROR).send(
         new Response({
           success: false,
@@ -242,15 +244,25 @@ module.exports = (container) => {
     }
   }
 
-  // addMerchantApplications({
-  //   body: {
-  //     id: '60ee62aa434240001391b803',
-  //     applications: [
-  //       'app3',
-  //       'app4'
-  //     ]
-  //   }
-  // })
+  addMerchantApplications({
+    body: {
+      id: '60ee62aa434240001391b803',
+      applications: [{
+        id: 'test1',
+        urlWebhook: 'app1new.com',
+        secretKey: 'app1',
+        methodWebhook: 'get',
+        note: 'ok'
+      },
+      {
+        id: 'test2',
+        urlWebhook: 'app2.com',
+        secretKey: 'app2',
+        methodWebhook: 'get',
+        note: 'ok'
+      }]
+    }
+  })
 
   return {
     addMerchant,
