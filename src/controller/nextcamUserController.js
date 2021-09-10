@@ -33,8 +33,21 @@ module.exports = (container) => {
     }
   }
 
+  const getCameraByUserId = async (req, res) => {
+    try {
+      const isAdmin = req.headers['is-admin'] || false
+      const { id } = req.params
+      const result = await beHelper.getNextcamCameraByUserId(isAdmin, id)
+      res.status(httpCode.SUCCESS).json({ ok: true, data: JSON.parse(result).data })
+    } catch (e) {
+      logger.e('nextcamUserController error: ', e.message)
+      res.status(httpCode.UNKNOWN_ERROR).json({ ok: false, msg: e.message })  
+    }
+  }
+
   return {
     getUserPaging,
     getUserById,
+    getCameraByUserId,
   }
 }
