@@ -5,4 +5,5 @@ module.exports = (app, container) => {
 
   app.get(`${basePath}/nextcam-user`, nextcamUserController.getUserPaging)
   app.get(`${basePath}/nextcam-user/:id`, nextcamUserController.getUserById)
+  app.get(`${basePath}/nextcam-user/:id/camera`, nextcamUserController.getCameraByUserId)
 }

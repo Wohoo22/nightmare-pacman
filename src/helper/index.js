@@ -369,6 +369,18 @@ module.exports = (container) => {
     return data
   }
 
+  // @author: manhthd, 2021 September 10
+  const getNextcamCameraByUserId = async (isAdmin, _id) => {
+    const token = isAdmin ? nextcamResource.ADMIN_TOKEN : nextcamResource.VIEW_TOKEN
+    const options = {
+      headers: { Authorization: `Bearer ${token}` },
+      uri: `${customerUserServiceConfig.nextcamUrl}/user/${_id}/camera`,
+      method: 'GET'
+    }
+    const data = await request(options)
+    return data
+  }
+
   return {
     addUser,
     updateUser,
@@ -387,5 +399,6 @@ module.exports = (container) => {
     countNextcamUser,
     getNextcamCameraById,
     getNextcamUserById,
+    getNextcamCameraByUserId,
   }
 }
