@@ -10,5 +10,4 @@ module.exports = (app, container) => {
   app.post(`${basePath}/merchant`, merchantController.addMerchant)
   app.post(`${basePath}/merchant/delete-applications`, merchantController.deleteMerchantApplications)
   app.post(`${basePath}/merchant/add-applications`, merchantController.addMerchantApplications)
-  app.post(`${basePath}/merchant/count-merchant-using-app`, merchantController.countMerchantUsingApp)
 }
