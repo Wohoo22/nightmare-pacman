@@ -261,6 +261,42 @@ module.exports = (container) => {
   //   }
   // })
 
+  async function countMerchantUsingApp (req, res) {
+    const data = []
+    for (const appId of req.body.appIds) {
+      data.push({
+        appId: appId,
+        merchantUsingApp: Math.floor(Math.random() * 20)
+      })
+    }
+    res.status(httpCode.SUCCESS).send(
+      new Response({
+        success: true,
+        code: httpCode.SUCCESS,
+        message: 'OK',
+        data: data
+      })
+    )
+  }
+
+  countMerchantUsingApp(
+    {
+      body: {
+        appIds: ['bruh', 'dark', 'lmao']
+      }
+    },
+    {
+      status (code) {
+        return {
+          send (data) {
+            console.log('########## TEST DATA ########')
+            console.log(data)
+          }
+        }
+      }
+    }
+  )
+
   return {
     addMerchant,
     getMerchant,
@@ -269,6 +305,7 @@ module.exports = (container) => {
     deleteMerchant,
     getMerchantInfo,
     deleteMerchantApplications,
-    addMerchantApplications
+    addMerchantApplications,
+    countMerchantUsingApp
   }
 }
