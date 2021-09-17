@@ -66,6 +66,11 @@ module.exports = (container) => {
       const { id } = req.params
       if (id) {
         const merchant = await merchantRepo.getMerchantById(id)
+
+        // console.log('*$*$*$*$* getMerchantById')
+        // console.log(merchant)
+        // console.log('*$*$*$*$* /getMerchantById')
+
         res.status(httpCode.SUCCESS).send(merchant)
       } else {
         res.status(httpCode.BAD_REQUEST).end()
@@ -75,6 +80,13 @@ module.exports = (container) => {
       res.status(httpCode.UNKNOWN_ERROR).send({ ok: false })
     }
   }
+
+  // getMerchantById({
+  //   params: {
+  //     id: '60ee62aa434240001391b803'
+  //   }
+  // })
+
   // const getMerchantFromMST = async (req, res) => {
   //   try {
   //     const { mst } = req.query
@@ -279,23 +291,23 @@ module.exports = (container) => {
     )
   }
 
-  countMerchantUsingApp(
-    {
-      body: {
-        appIds: ['bruh', 'dark', 'lmao']
-      }
-    },
-    {
-      status (code) {
-        return {
-          send (data) {
-            console.log('########## TEST DATA ########')
-            console.log(data)
-          }
-        }
-      }
-    }
-  )
+  // countMerchantUsingApp(
+  //   {
+  //     body: {
+  //       appIds: ['bruh', 'dark', 'lmao']
+  //     }
+  //   },
+  //   {
+  //     status (code) {
+  //       return {
+  //         send (data) {
+  //           console.log('########## TEST DATA ########')
+  //           console.log(data)
+  //         }
+  //       }
+  //     }
+  //   }
+  // )
 
   return {
     addMerchant,
