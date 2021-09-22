@@ -7,4 +7,6 @@ module.exports = (app, container) => {
   app.put(`${basePath}/open/updateAliasMerchant/:id`, checkCustomerBeToken, openController.updateAliasMerchant)
   app.get(`${basePath}/open/merchant`, checkCustomerBeToken, openController.getMerchantDetail)
   app.get(`${basePath}/open/merchant/:id`, checkCustomerBeToken, openController.getMerchantDetailById)
+  app.post(`${basePath}/open/merchant/count-merchant-using-app`, checkCustomerBeToken, merchantController.countMerchantUsingApp)
+
 }

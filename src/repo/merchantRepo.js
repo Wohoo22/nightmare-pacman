@@ -100,6 +100,10 @@ module.exports = container => {
     )
   }
 
+  async function countMerchantUsingApp (appIds) {
+    
+  }
+
   return {
     findOne,
     getMerchantNoPaging,
