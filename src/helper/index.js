@@ -381,6 +381,18 @@ module.exports = (container) => {
     return data
   }
 
+  // @author: manhthd, 2021 Sep 22
+  const getUsersOfNCCMerchant = async (params) => {
+    const options = {
+      headers: { 'be-token': customerUserServiceConfig.customerUserToken },
+      uri: `${customerUserServiceConfig.url}/sys-user/user?${querystring.stringify(params)}`,
+      method: 'GET'
+    }
+    console.log('options uri: ', options.uri)
+    const data = await request(options)
+    return JSON.parse(data)
+  }
+
   return {
     addUser,
     updateUser,
@@ -400,5 +412,6 @@ module.exports = (container) => {
     getNextcamCameraById,
     getNextcamUserById,
     getNextcamCameraByUserId,
+    getUsersOfNCCMerchant,
   }
 }
