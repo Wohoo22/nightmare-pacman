@@ -7,6 +7,8 @@ module.exports = (container) => {
   const nextcamCameraController = require('./nextcamCameraController')(container)
   const nextcamUserController = require('./nextcamUserController')(container)
   const nccUserController = require('./nccUserController')(container)
+  const nccRoleController = require('./nccRoleController')(container)
+
   return {
     dashboardController,
     phanQuyenController,
@@ -15,6 +17,7 @@ module.exports = (container) => {
     openController,
     nextcamCameraController,
     nextcamUserController,
-    nccUserController
+    nccUserController,
+    nccRoleController,
   }
 }

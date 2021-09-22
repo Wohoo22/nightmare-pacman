@@ -388,7 +388,16 @@ module.exports = (container) => {
       uri: `${customerUserServiceConfig.url}/sys-user/user?${querystring.stringify(params)}`,
       method: 'GET'
     }
-    console.log('options uri: ', options.uri)
+    const data = await request(options)
+    return JSON.parse(data)
+  }
+
+  const getRolesOfNCCMerchant = async (params) => {
+    const options = {
+      headers: { 'be-token': customerUserServiceConfig.customerUserToken },
+      uri: `${customerUserServiceConfig.url}/sys-user/role?${querystring.stringify(params)}`,
+      method: 'GET'
+    }
     const data = await request(options)
     return JSON.parse(data)
   }
@@ -413,5 +422,6 @@ module.exports = (container) => {
     getNextcamUserById,
     getNextcamCameraByUserId,
     getUsersOfNCCMerchant,
+    getRolesOfNCCMerchant,
   }
 }
