@@ -49,7 +49,7 @@ module.exports = (container) => {
       res.status(httpCode.BAD_REQUEST).json({ msg: msg || 'Bạn không có quyền thực hiện tác vụ này.' })
     } catch (e) {
       if (!e.message.includes('TokenExpiredError')) {
-        logger.e(e)
+        logger.e(e.message)
       }
       res.status(httpCode.TOKEN_EXPIRED).json({})
     }
