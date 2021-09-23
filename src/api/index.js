@@ -3,6 +3,8 @@ module.exports = (app, container) => {
   require('./dashboardApi')(app, container)
   require('./openApi')(app, container)
   app.use(verifyAccessToken)
+  require('./developerApi')(app, container)
+  require('./applicationApi')(app, container)
   require('./merchantApi')(app, container)
   require('./phanQuyenApi')(app, container)
   require('./customerUserApi')(app, container)

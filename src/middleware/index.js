@@ -6,12 +6,15 @@ module.exports = (container) => {
   } = container.resolve('config')
   const logger = container.resolve('logger')
   const verifyAccessToken = async (req, res, next) => {
+    console.log('verifyAccessToken')
     try {
       const token = req.headers['x-access-token'] || ''
       if (!token) {
         return res.status(httpCode.BAD_REQUEST).json({ msg: 'Bạn không có quyền thực hiện tác vụ này.' })
       }
       const user = await serverHelper.verifyToken(token)
+      console.log('user', user)
+
       const { path } = req
       const option = {
         uri: process.env.AUTHORIZATION_URL || 'http://nextcam-cloud-permission-operation:8080/authorization',
@@ -30,12 +33,17 @@ module.exports = (container) => {
         msg,
         user: userAuthorization
       } = await request(option)
+      console.log('ok', ok)
+      console.log('msg', msg)
+      console.log('user', user)
+      console.log('reqPath', path)
       if (ok) {
         req.user = userAuthorization
         console.log('authenticationMIddleware req.user', req.user)
         if (userAuthorization.readonly && req.method !== 'GET') {
           return res.status(httpCode.BAD_REQUEST).json({ msg: 'Bạn chỉ có quyền xem thông tin, không thể thực hiện được thao tác này.' })
         }
+        console.log('next', 'true')
         return next()
       }
       res.status(httpCode.BAD_REQUEST).json({ msg: msg || 'Bạn không có quyền thực hiện tác vụ này.' })
