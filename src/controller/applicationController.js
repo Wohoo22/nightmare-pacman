@@ -54,6 +54,7 @@ module.exports = (container) => {
         res.status(httpCode.UNKNOWN_ERROR).send({ ok: false,  msg: 'Unknow error' })
     }
   }
+
   const getApps = async (req, res) => {
     try {
       console.log('getApps')
@@ -65,7 +66,6 @@ module.exports = (container) => {
         qs: req.query
       }
       const data = await request(options)
-      console.log('data' , data)
 
       res.status(200).send(data)
     } catch (e) {
@@ -78,11 +78,33 @@ module.exports = (container) => {
     }
   }
   
-  
+  const getAppsApproved = async (req, res) => {
+    try {
+      console.log('getApps')
+      const options = {
+        headers: { 'be-token': accessToken },
+        uri: `${customerUserServiceConfig.url}/operation/developerUser/application/get-app-list/approved`,
+        json: true,
+        method: 'GET',
+        qs: req.query
+      }
+      const data = await request(options)
 
+      res.status(200).send(data)
+    } catch (e) {
+      //logger.e(e)
+      const { name, statusCode, error } = e
+      if (name === 'StatusCodeError') {
+        res.status(statusCode).send({ ok: false,  msg: (error || {}).msg || '' })
+      }else 
+        res.status(httpCode.UNKNOWN_ERROR).send({ ok: false,  msg: 'Unknow error' })
+    }
+  }
+  
   return {
     getApps,
     setStatusApp,
-    getAppById
+    getAppById,
+    getAppsApproved
   }
 }
