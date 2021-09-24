@@ -5,7 +5,24 @@ module.exports = (container) => {
     httpCode
   } = container.resolve('config')
   const logger = container.resolve('logger')
+
   const verifyAccessToken = async (req, res, next) => {
+
+    // disable middleware for some specific path
+    const openPath = ['/merchant/delete-applications', '/merchant/add-applications', '/merchant/:id']
+    for (const path of openPath) {
+      if (path === req.path) return next()
+      const openPathSegments = path.split('/')
+      const reqPathSegments = req.path.split('/')
+      if (openPathSegments.length !== reqPathSegments.length) continue
+      let match = true
+      for (let i=0; i<openPathSegments.length; i++) 
+        if (openPathSegments[i] !== ':id'
+            && openPathSegments[i] !== reqPathSegments[i])
+            match = false
+      if (match) return next()
+    }
+
     console.log('verifyAccessToken')
     try {
       const token = req.headers['x-access-token'] || ''
