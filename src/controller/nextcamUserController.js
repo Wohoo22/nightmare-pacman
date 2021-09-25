@@ -45,9 +45,23 @@ module.exports = (container) => {
     }
   }
 
+  // @author: manhthd, 2021 Sep 25
+  const getFaceByUserId = async (req, res) => {
+    try {
+      const isAdmin = req.headers['is-admin'] || false
+      const { id } = req.params
+      const result = await beHelper.getNextcamFaceByUserId(isAdmin, id)
+      res.status(httpCode.SUCCESS).json({ ok: true, data: JSON.parse(result).data })
+    } catch (e) {
+      logger.e('nextcamUserController error: ', e.message)
+      res.status(httpCode.UNKNOWN_ERROR).json({ ok: false, msg: e.message })  
+    }
+  }
+
   return {
     getUserPaging,
     getUserById,
     getCameraByUserId,
+    getFaceByUserId,
   }
 }

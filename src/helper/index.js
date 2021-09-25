@@ -381,6 +381,18 @@ module.exports = (container) => {
     return data
   }
 
+  // @author: manhthd, 2021 Sep 25
+  const getNextcamFaceByUserId = async (isAdmin, _id) => {
+    const token = isAdmin ? nextcamResource.ADMIN_TOKEN : nextcamResource.VIEW_TOKEN
+    const options = {
+      headers: { Authorization: `Bearer ${token}` },
+      uri: `${customerUserServiceConfig.nextcamUrl}/user/${_id}/face`,
+      method: 'GET'
+    }
+    const data = await request(options)
+    return data
+  }
+
   // @author: manhthd, 2021 Sep 22
   const getUsersOfNCCMerchant = async (params) => {
     const options = {
@@ -421,6 +433,7 @@ module.exports = (container) => {
     getNextcamCameraById,
     getNextcamUserById,
     getNextcamCameraByUserId,
+    getNextcamFaceByUserId,
     getUsersOfNCCMerchant,
     getRolesOfNCCMerchant,
   }
