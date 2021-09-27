@@ -4,5 +4,6 @@ module.exports = (app, container) => {
   const { basePath } = serverSettings
 
   app.get(`${basePath}/nextcam-camera`, nextcamCameraController.getCameraPaging)
+  app.get(`${basePath}/nextcam-camera/device-status`, nextcamCameraController.getDeviceStatus)
   app.get(`${basePath}/nextcam-camera/:id`, nextcamCameraController.getCameraById)
 }

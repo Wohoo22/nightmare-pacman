@@ -414,6 +414,16 @@ module.exports = (container) => {
     return JSON.parse(data)
   }
 
+  // @author: manhthd, 2021 Sep 27
+  const getDeviceStatus = async () => {
+    const options = {
+      uri: `${customerUserServiceConfig.nextcamApiHandling}/device-status`,
+      method: 'GET'
+    }
+    const data = await request(options)
+    return JSON.parse(data)
+  }
+
   return {
     addUser,
     updateUser,
@@ -436,5 +446,6 @@ module.exports = (container) => {
     getNextcamFaceByUserId,
     getUsersOfNCCMerchant,
     getRolesOfNCCMerchant,
+    getDeviceStatus,
   }
 }

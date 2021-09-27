@@ -33,8 +33,19 @@ module.exports = (container) => {
     }
   }
 
+  const getDeviceStatus = async (req, res) => {
+    try {
+      const result = await beHelper.getDeviceStatus()
+      res.status(httpCode.SUCCESS).json({ ok: true, data: result.data })
+    } catch (e) {
+      logger.e('nextcamCameraController error: ', e.message)
+      res.status(httpCode.UNKNOWN_ERROR).json({ ok: false, msg: e.message })
+    }
+  }
+
   return {
     getCameraPaging,
     getCameraById,
+    getDeviceStatus,
   }
 }
