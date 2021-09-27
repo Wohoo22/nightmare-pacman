@@ -417,7 +417,7 @@ module.exports = (container) => {
   // @author: manhthd, 2021 Sep 27
   const getDeviceStatus = async () => {
     const options = {
-      uri: `${customerUserServiceConfig.nextcamApiHandling}/device-status`,
+      uri: `${customerUserServiceConfig.nextcamWebhookHandling}/device-status`,
       method: 'GET'
     }
     const data = await request(options)

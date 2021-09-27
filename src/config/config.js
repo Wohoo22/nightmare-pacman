@@ -16,7 +16,7 @@ const customerUserServiceConfig = {
   url: process.env.PERMISSION_USER_URL || 'http://nextcam-cloud-permission-user:8080',
   customerBackenUrl: process.env.USER_DATA_URL || 'http://nextcam-cloud-user-data:8080',
   nextcamUrl: process.env.NEXTCAM_URL || 'http://18.136.231.246:8080',
-  nextcamApiHandling: process.env.NEXTCAM_API_HANDLING_URL || 'http://nextcam-api-handling:8080',
+  nextcamWebhookHandling: process.env.NEXTCAM_WEBHOOK_HANDLING_URL || 'http://nextcam-webhook-handling:8080',
 }
 const defaultResource = [
   {
