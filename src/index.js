@@ -3,6 +3,14 @@ const { initDI } = require('./di')
 const { name } = require('../package.json')
 const config = require('./config')
 const logger = require('./logger')
+const elasticApmAgent = require('elastic-apm-node')
+
+elasticApmAgent.start({
+  serviceName: process.env.npm_package_name,
+  serverUrl: process.env.ELASTIC_APM_SERVER_URL,
+  active: process.env.ELASTIC_APM_ENABLE_LOG_CORRELATION === 'true',
+  environment: process.env.ELASTIC_APM_ENVIRONMENT
+})
 const middleware = require('./middleware')
 const server = require('./server')
 const models = require('./models')
