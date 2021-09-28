@@ -66,6 +66,11 @@ module.exports = (container) => {
       const { id } = req.params
       if (id) {
         const merchant = await merchantRepo.getMerchantById(id)
+
+        // console.log('*$*$*$*$* getMerchantById')
+        // console.log(merchant)
+        // console.log('*$*$*$*$* /getMerchantById')
+
         res.status(httpCode.SUCCESS).send(merchant)
       } else {
         res.status(httpCode.BAD_REQUEST).end()
@@ -75,6 +80,13 @@ module.exports = (container) => {
       res.status(httpCode.UNKNOWN_ERROR).send({ ok: false })
     }
   }
+
+  // getMerchantById({
+  //   params: {
+  //     id: '60ee62aa434240001391b803'
+  //   }
+  // })
+
   // const getMerchantFromMST = async (req, res) => {
   //   try {
   //     const { mst } = req.query
@@ -174,7 +186,7 @@ module.exports = (container) => {
     try {
       const data = await merchantRepo.deleteMerchantApplications({
         id: req.body.id,
-        applications: req.body.applications
+        applicationIds: req.body.applicationIds
       })
 
       // console.log('######### delete-merchant-applications')
@@ -190,6 +202,7 @@ module.exports = (container) => {
         })
       )
     } catch (e) {
+      console.log(e)
       res.status(httpCode.UNKNOWN_ERROR).send(
         new Response({
           success: false,
@@ -202,15 +215,15 @@ module.exports = (container) => {
   }
   // deleteMerchantApplications({
   //   body: {
-  //     id: '6125c3f1ad96d5001346b9b9',
-  //     applications: [
-  //       'app2'
+  //     id: '60ee62aa434240001391b803',
+  //     applicationIds: [
+  //       'app1'
   //     ]
   //   }
   // })
   const addMerchantApplications = async (req, res) => {
     try {
-      const data = await merchantRepo.addMerchantApplication({
+      const data = await merchantRepo.setMerchantApplications({
         id: req.body.id,
         applications: req.body.applications
       })
@@ -228,6 +241,7 @@ module.exports = (container) => {
         })
       )
     } catch (e) {
+      console.log(e)
       res.status(httpCode.UNKNOWN_ERROR).send(
         new Response({
           success: false,
@@ -238,15 +252,63 @@ module.exports = (container) => {
       )
     }
   }
+
   // addMerchantApplications({
   //   body: {
   //     id: '60ee62aa434240001391b803',
-  //     applications: [
-  //       'app3',
-  //       'app4'
-  //     ]
+  //     applications: [{
+  //       id: 'test1',
+  //       urlWebhook: 'app1new.com',
+  //       secretKey: 'app1',
+  //       methodWebhook: 'get',
+  //       note: 'ok'
+  //     },
+  //     {
+  //       id: 'test2',
+  //       urlWebhook: 'app2.com',
+  //       secretKey: 'app2',
+  //       methodWebhook: 'get',
+  //       note: 'ok'
+  //     }]
   //   }
   // })
+
+  async function countMerchantUsingApp (req, res) {
+    const data = []
+    for (const appId of req.body.appIds) {
+      data.push({
+        appId: appId,
+        merchantUsingApp: Math.floor(Math.random() * 20)
+      })
+    }
+    res.status(httpCode.SUCCESS).send(
+      new Response({
+        success: true,
+        code: httpCode.SUCCESS,
+        message: 'OK',
+        data: data
+      })
+    )
+  }
+
+  // countMerchantUsingApp(
+  //   {
+  //     body: {
+  //       appIds: ['bruh', 'dark', 'lmao']
+  //     }
+  //   },
+  //   {
+  //     status (code) {
+  //       return {
+  //         send (data) {
+  //           console.log('########## TEST DATA ########')
+  //           console.log(data)
+  //         }
+  //       }
+  //     }
+  //   }
+  // )
+
   return {
     addMerchant,
     getMerchant,
@@ -255,6 +317,7 @@ module.exports = (container) => {
     deleteMerchant,
     getMerchantInfo,
     deleteMerchantApplications,
-    addMerchantApplications
+    addMerchantApplications,
+    countMerchantUsingApp
   }
 }

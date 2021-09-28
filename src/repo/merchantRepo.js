@@ -39,30 +39,69 @@ module.exports = container => {
     return Merchant.deleteMany(pipe)
   }
 
-  const deleteMerchantApplications = async ({
+  async function setMerchantApplications ({
     id,
     applications
-  }) => {
-    const filter = { _id: id }
-    const update = { $pullAll: { applications: applications } }
+  }) {
+    /*
+      applications: [{
+        id,
+        appName,
+        urlWebhook,
+        secretKey,
+        methodWebhook,
+        note
+      }]
+    */
+    const merchant = await Merchant.findById(id)
+    let resultApplications = []
+    resultApplications = resultApplications.concat(applications)
+    for (const oldApp of merchant.applications) {
+      let overrided = false
+      for (const newApp of applications) {
+        if (newApp.id === oldApp.id) {
+          overrided = true
+          break
+        }
+      }
+      if (!overrided) {
+        resultApplications.push(oldApp)
+      }
+    }
     return await Merchant.findOneAndUpdate(
-      filter,
-      update,
+      { _id: id },
+      { applications: resultApplications },
       { new: true }
     )
   }
 
-  const addMerchantApplication = async ({
+  const deleteMerchantApplications = async ({
     id,
-    applications
+    applicationIds
   }) => {
-    const filter = { _id: id }
-    const update = { $push: { applications: applications } }
+    const merchant = await Merchant.findById(id)
+    const resultApplications = []
+    for (const app of merchant.applications) {
+      let deleted = false
+      for (const id of applicationIds) {
+        if (id === app.id) {
+          deleted = true
+          break
+        }
+        if (!deleted) {
+          resultApplications.push(app)
+        }
+      }
+    }
     return await Merchant.findOneAndUpdate(
-      filter,
-      update,
+      { _id: id },
+      { applications: resultApplications },
       { new: true }
     )
+  }
+
+  async function countMerchantUsingApp (appIds) {
+    
   }
 
   return {
@@ -77,7 +116,7 @@ module.exports = container => {
     checkIdExist,
     getCount,
     getMerchant,
-    addMerchantApplication,
+    setMerchantApplications,
     deleteMerchantApplications
   }
 }

@@ -15,7 +15,8 @@ const customerUserServiceConfig = {
   customerUserToken: process.env.USER_DATA_TOKEN || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoic2ktYmFja2VuZCIsImlhdCI6MTYyNTIwMTUwNiwiZXhwIjo0NzgwOTYxNTA2fQ.EWAibq87KjWRal4NdE9DEMpp9Po5yjUtqwdvSY0yJD4',
   url: process.env.PERMISSION_USER_URL || 'http://nextcam-cloud-permission-user:8080',
   customerBackenUrl: process.env.USER_DATA_URL || 'http://nextcam-cloud-user-data:8080',
-  nextcamUrl: process.env.NEXTCAM_URL || 'http://18.136.231.246:8080'
+  nextcamUrl: process.env.NEXTCAM_URL || 'http://18.136.231.246:8080',
+  nextcamWebhookHandling: process.env.NEXTCAM_WEBHOOK_HANDLING_URL || 'http://nextcam-webhook-handling:8080',
 }
 const defaultResource = [
   {
@@ -121,11 +122,18 @@ const serverHelper = function () {
 
   return { decodeToken, encryptPassword, verifyToken, genToken, getMerchantInfoFromMST, uuidv4 }
 }
+
+const nextcamResource = {
+  ADMIN_TOKEN: process.env.ADMIN_TOKEN || 'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0eXBlIjoiZnVsbCIsImlhdCI6MTYzMDAzNjQ2Mn0.kw1DC0jKhQh3kipcMmTDlzR3couZ_TcVrqgf_qx4cmd0pZyXd3pV6JiDIp1E0eY3FA34NKY4oh-7JQUqk6F5bKJrSJra3sayVRoPNwdyO09PMqBPlFF6yEdifSPK73KaUZ3cMcRB03mvoTsnypHqFxKzmiSQkNxYCGUPbItbQuc',
+  VIEW_TOKEN: process.env.VIEW_TOKEN || 'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0eXBlIjoidmlldyIsImlhdCI6MTYzMDAzNjQyNn0.XMvnNzbJP6RWq8GKPHPUBS_S__5_t6kpKRGxH7bfpQN83TyD-lpezqZAVjviWWdwxYznvuZ6xM7wYj982G_Vy--J3JY9JKnFta159iT5woR9pDH_c83tS8Z8vjd4f8JAXhf0KyasseXXbjmauJZb6NSrFPYPg_EPPbzA3WoU81c',
+}
+
 module.exports = {
   dbSettings,
   serverHelper: serverHelper(),
   serverSettings,
   httpCode,
   customerUserServiceConfig,
-  defaultResource
+  defaultResource,
+  nextcamResource,
 }

@@ -6,6 +6,10 @@ module.exports = (container) => {
   const openController = require('./openController')(container)
   const nextcamCameraController = require('./nextcamCameraController')(container)
   const nextcamUserController = require('./nextcamUserController')(container)
+  const developerController = require('./developerController')(container)
+  const applicationController = require('./applicationController')(container)
+  const nccUserController = require('./nccUserController')(container)
+  const nccRoleController = require('./nccRoleController')(container)
   return {
     dashboardController,
     phanQuyenController,
@@ -13,6 +17,10 @@ module.exports = (container) => {
     customerUserController,
     openController,
     nextcamCameraController,
-    nextcamUserController
+    nextcamUserController,
+    developerController,
+    applicationController,
+    nccUserController,
+    nccRoleController,
   }
 }
