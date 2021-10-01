@@ -8,11 +8,11 @@ module.exports = (container) => {
       const params = { ...req.query, isAdmin: req.headers['is-admin'] || false }
       // console.log('params: ', params)
       const camerasPromise = beHelper.getNextcamCamera(params)
-      // const totalPromise = beHelper.countNextcamCamera(params)
-      Promise.all([camerasPromise])
+      const totalPromise = beHelper.countNextcamCamera(params)
+      Promise.all([camerasPromise, totalPromise])
         .then(apiRepsonses => {
           const cameras = JSON.parse(apiRepsonses[0]).data
-          const total = cameras.length
+          const total = JSON.parse(apiRepsonses[1]).data.total
           res.status(httpCode.SUCCESS).send({ ok: true, data: { resourceDetails: cameras, total } })
         })
     } catch (e) {
