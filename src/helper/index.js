@@ -424,6 +424,18 @@ module.exports = (container) => {
     return JSON.parse(data)
   }
 
+  const getDeviceStates = async (id, username, isAdmin) => {
+    const token = isAdmin ? nextcamResource.ADMIN_TOKEN : nextcamResource.VIEW_TOKEN
+    const options = {
+      headers: { 'Authorization': `Bearer ${token}`},
+      uri: `${customerUserServiceConfig.nextcamUrl}/device/${id}/state?username=${username}`,
+      method: 'GET'
+    }
+    console.log('options uri: ', options.uri);
+    const data = await request(options)
+    return JSON.parse(data)
+  }
+
   return {
     addUser,
     updateUser,
@@ -447,5 +459,6 @@ module.exports = (container) => {
     getUsersOfNCCMerchant,
     getRolesOfNCCMerchant,
     getDeviceStatus,
+    getDeviceStates,
   }
 }

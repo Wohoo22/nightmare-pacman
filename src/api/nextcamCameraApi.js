@@ -6,4 +6,5 @@ module.exports = (app, container) => {
   app.get(`${basePath}/nextcam-camera`, nextcamCameraController.getCameraPaging)
   app.get(`${basePath}/nextcam-camera/device-status`, nextcamCameraController.getDeviceStatus)
   app.get(`${basePath}/nextcam-camera/:id`, nextcamCameraController.getCameraById)
+  app.get(`${basePath}/nextcam-camera/:id/state`, nextcamCameraController.getDeviceStates)
 }
