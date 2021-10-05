@@ -326,7 +326,7 @@ module.exports = (container) => {
     const token = params.isAdmin ? nextcamResource.ADMIN_TOKEN : nextcamResource.VIEW_TOKEN
     const options = {
       headers: { Authorization: `Bearer ${token}` },
-      uri: `${customerUserServiceConfig.nextcamUrl}/camera-count`,
+      uri: `${customerUserServiceConfig.nextcamUrl}/camera-count?${querystring.stringify(params)}`,
       method: 'GET'
     }
     const data = await request(options)
