@@ -58,10 +58,24 @@ module.exports = (container) => {
     }
   }
 
+  // @author: manhthd, 2021 Oct 6
+  const changePassword = async (req, res) => {
+    try {
+      const isAdmin = req.headers['is-admin'] || false
+      const { id } = req.params
+      const result = await beHelper.changePassword(isAdmin, id, req.body)
+      res.status(httpCode.SUCCESS).json({ ok: true, data: result.data })
+    } catch (e) {
+      logger.e('nextcamUserController error: ', e.message)
+      res.status(httpCode.UNKNOWN_ERROR).json({ ok: false, msg: e.message })
+    }
+  }
+
   return {
     getUserPaging,
     getUserById,
     getCameraByUserId,
     getFaceByUserId,
+    changePassword,
   }
 }

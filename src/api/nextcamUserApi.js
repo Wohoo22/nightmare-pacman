@@ -7,4 +7,5 @@ module.exports = (app, container) => {
   app.get(`${basePath}/nextcam-user/:id`, nextcamUserController.getUserById)
   app.get(`${basePath}/nextcam-user/:id/camera`, nextcamUserController.getCameraByUserId)
   app.get(`${basePath}/nextcam-user/:id/face`, nextcamUserController.getFaceByUserId)
+  app.post(`${basePath}/nextcam-user/:id/change-pwd`, nextcamUserController.changePassword)
 }
