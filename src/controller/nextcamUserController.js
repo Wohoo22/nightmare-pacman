@@ -1,7 +1,8 @@
 module.exports = (container) => {
   const logger = container.resolve('logger')
-  const { httpCode } = container.resolve('config')
+  const { httpCode, CachePrefixes } = container.resolve('config')
   const beHelper = container.resolve('helper')
+  const cacheController = container.resolve('cache')
 
   const getUserPaging = async (req, res) => {
     try {
@@ -25,8 +26,10 @@ module.exports = (container) => {
     try {
       const isAdmin = req.headers['is-admin'] || false
       const { id } = req.params
-      const result = await beHelper.getNextcamUserById(isAdmin, id)
-      res.status(httpCode.SUCCESS).json({ ok: true, data: JSON.parse(result).data })
+      const cacheKey = CachePrefixes.ncUser + '-' + id
+      const execution = () => beHelper.getNextcamUserById(isAdmin, id)
+      const result = await cacheController.get(cacheKey, execution)
+      res.status(httpCode.SUCCESS).json({ ok: true, data: result.data })
     } catch (e) {
       logger.e('nextcamUserController error: ', e.message)
       res.status(httpCode.UNKNOWN_ERROR).json({ ok: false, msg: e.message })
