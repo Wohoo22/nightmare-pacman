@@ -49,7 +49,6 @@ module.exports = (container) => {
     try {
       const cacheKey = CachePrefixes.ncCamStatus
       const execution = () => beHelper.getDeviceStatus()
-      console.log('?');
       const result = await cacheController.get(cacheKey, execution)
       res.status(httpCode.SUCCESS).json({ ok: true, data: result.data })
     } catch (e) {
@@ -63,7 +62,7 @@ module.exports = (container) => {
       const { id } = req.params
       const { username } = req.query
       const isAdmin = req.headers['is-admin'] || false
-      const _suffix =  CacheConverter.paramsToCacheSuffix({ isAdmin, id })
+      const _suffix =  CacheConverter.paramsToCacheSuffix({ isAdmin, id, username })
       const cacheKey = CachePrefixes.ncCamStates + '-' + _suffix
       const execution = () => beHelper.getDeviceStates(id, username, isAdmin)
       const result = await cacheController.get(cacheKey, execution)
