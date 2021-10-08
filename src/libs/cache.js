@@ -24,8 +24,16 @@ class CacheController {
   // EXTERNAL API
   async get(key, realFunc) {
     const item = this.items.get(key)
+    // console.log('my cache item: ', item);
     if (item == null || item.isExpired()) {
-      const realValue = JSON.parse(await realFunc())
+      const rawValue = await realFunc()
+      const realValue = (() => {
+        try {
+          return JSON.parse(rawValue)
+        } catch (e) {
+          return rawValue
+        }
+      })()
       // console.log('NOT CACHED: ', key, ' & ', realValue);
       this.items.set(key, new CacheItem(realValue, this._defaultExpiredAt()))
       return realValue
