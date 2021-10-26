@@ -19,7 +19,7 @@ const connect = (container, mediator) => {
     useNewUrlParser: true,
     keepAlive: 1,
     useUnifiedTopology: true,
-    authSource: 'admin',
+    // authSource: 'admin',
     useCreateIndex: true
   })
   const db = MongoClient.connection

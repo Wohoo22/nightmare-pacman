@@ -13,4 +13,5 @@ module.exports = (app, container) => {
   require('./nextcamUserApi')(app, container)
   require('./nccUserApi')(app, container)
   require('./nccRoleApi')(app, container)
+  require('./testApi')(app, container)
 }

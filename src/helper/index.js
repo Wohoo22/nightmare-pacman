@@ -431,9 +431,21 @@ module.exports = (container) => {
       uri: `${customerUserServiceConfig.nextcamUrl}/device/${id}/state?username=${username}`,
       method: 'GET'
     }
-    console.log('options uri: ', options.uri);
     const data = await request(options)
     return JSON.parse(data)
+  }
+
+  const changePassword = async (isAdmin, id, body) => {
+    const token = isAdmin ? nextcamResource.ADMIN_TOKEN : nextcamResource.VIEW_TOKEN
+    const options = {
+      headers: { 'Authorization': `Bearer ${token}`},
+      uri: `${customerUserServiceConfig.nextcamUrl}/user/${id}/change-pwd`,
+      method: 'POST',
+      json: true,
+      body,
+    }
+    const data = await request(options)
+    return data
   }
 
   return {
@@ -460,5 +472,6 @@ module.exports = (container) => {
     getRolesOfNCCMerchant,
     getDeviceStatus,
     getDeviceStates,
+    changePassword,
   }
 }
