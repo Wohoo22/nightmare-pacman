@@ -9,7 +9,11 @@ module.exports = (container) => {
   const verifyAccessToken = async (req, res, next) => {
 
     // disable middleware for some specific path
-    const openPath = ['/merchant/delete-applications', '/merchant/add-applications', '/merchant/:id', '/developer/sub/application/get-app-list/approved']
+    const openPath = [
+      '/merchant/delete-applications', 
+    '/merchant/add-applications', '/merchant/:id', 
+    '/developer/sub/application/get-app-list/approved',
+    '/developer/sub/application/:id']
     for (const path of openPath) {
       if (path === req.path) return next()
       const openPathSegments = path.split('/')
