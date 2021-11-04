@@ -145,11 +145,12 @@ function startGame() {
     let keyCode = -1
     let lastLeftRightKeyCode = Keycode.RIGHT;
     let lastUpDownKeyCode = Keycode.DOWN;
+    const lastPacmanIndexes = [];
     const movePacman = () => {
         let lastIndex = pacmanIndex;
         let nextIndex = pacmanIndex
         switch (keyCode) {
-            case Keycode.LEFT: 
+            case Keycode.LEFT:
                 nextIndex = pacmanIndex - 1;
                 if (pacmanIndex - 1 == 363)
                     nextIndex = 391;
@@ -171,14 +172,23 @@ function startGame() {
             pacmanIndex = nextIndex;
             chosenKeycode = keyCode
         } else {
-            const dir = findOptimalPacmanDir(pacmanIndex, graph, keyCode, lastLeftRightKeyCode, lastUpDownKeyCode)
+            const dir = findOptimalPacmanDir(pacmanIndex, graph, keyCode, lastLeftRightKeyCode, lastUpDownKeyCode, lastPacmanIndexes)
             pacmanIndex = dir.index
             chosenKeycode = dir.keyCode
+            if (dir.changeKeyCode)
+                keyCode = dir.changeKeyCode
         }
+
+        while(lastPacmanIndexes.length > 5)
+            lastPacmanIndexes.shift()
+        if (!lastPacmanIndexes.includes(pacmanIndex))
+            lastPacmanIndexes.push(pacmanIndex);
+        
+
         switch (chosenKeycode) {
             case Keycode.RIGHT:
             case Keycode.LEFT:
-                lastLeftRightKeyCode = chosenKeycode;   
+                lastLeftRightKeyCode = chosenKeycode;
                 break;
             case Keycode.UP:
             case Keycode.DOWN:
@@ -368,13 +378,49 @@ function findOptimalGhostDir(pacmanIndex, ghost, graph) {
     return mnNeighbor;
 }
 
-function findOptimalPacmanDir(pacmanIndex, graph, keyCode, lastLeftRightKeyCode, lastUpDownKeyCode) {
-    console.log(pacmanIndex, keyCode, lastLeftRightKeyCode, lastUpDownKeyCode);
+function findOptimalPacmanDir(pacmanIndex, graph, keyCode, lastLeftRightKeyCode, lastUpDownKeyCode, lastPacmanIndexes) {
     const neighbors = graph[pacmanIndex].neighbors;
     const left = pacmanIndex - 1;
     const right = pacmanIndex + 1;
     const up = pacmanIndex - matrixLineLength;
     const down = pacmanIndex + matrixLineLength;
+
+    // corner case
+    if (neighbors.length === 2
+        &&  // not in the same line
+        !(
+            (Math.abs(neighbors[0] - neighbors[1]) === matrixLineLength * 2)
+            || (Math.abs(neighbors[0] - neighbors[1]) === 2) // same line
+        )
+    ) {
+        let index = lastPacmanIndexes.includes(neighbors[0]) ? neighbors[1] : neighbors[0];
+        let rKeyCode = -1
+        switch (index) {
+            case pacmanIndex + 1:
+                rKeyCode = Keycode.RIGHT
+                break
+            case pacmanIndex - 1:
+                rKeyCode = Keycode.LEFT
+                break
+            case pacmanIndex + matrixLineLength:
+                rKeyCode = Keycode.DOWN
+                break
+            case pacmanIndex - matrixLineLength:
+                rKeyCode = Keycode.UP
+                break
+        }
+        const res = {
+            index: index,
+            keyCode: rKeyCode,
+            changeKeyCode: rKeyCode
+        }
+        // console.log(res)
+        // console.log('pac',pacmanIndex)
+        // console.log('neigh',neighbors)
+        // console.log('lst', lastPacmanIndex)
+        return res;
+    }
+
     let result
     switch (keyCode) {
         case Keycode.LEFT: // left
@@ -386,7 +432,7 @@ function findOptimalPacmanDir(pacmanIndex, graph, keyCode, lastLeftRightKeyCode,
                 && neighbors.includes(down))
                 return { index: down, keyCode: Keycode.DOWN };
             result = lastUpDownKeyCode === Keycode.UP ?
-                { index: down, keyCode: Keycode.DOWN } : 
+                { index: down, keyCode: Keycode.DOWN } :
                 { index: up, keyCode: Keycode.UP };
             break
         case Keycode.UP: // up
@@ -398,8 +444,8 @@ function findOptimalPacmanDir(pacmanIndex, graph, keyCode, lastLeftRightKeyCode,
                 && neighbors.includes(right))
                 return { index: right, keyCode: Keycode.RIGHT };
             result = lastLeftRightKeyCode === Keycode.LEFT ?
-                    { index: right, keyCode: Keycode.RIGHT } : 
-                    { index: left, keyCode: Keycode.LEFT };
+                { index: right, keyCode: Keycode.RIGHT } :
+                { index: left, keyCode: Keycode.LEFT };
             break
     }
     result = neighbors.includes(result.index) ? result : { index: pacmanIndex, keyCode: -1 };;
