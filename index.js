@@ -19,7 +19,6 @@ const ghostKillerFruitTime = 5000;
 const ghostSpeed = 100;
 const pacmanSpeed = 90;
 const ghostDelayBeforeRespawn = 2000;
-const pacmanVisitedIndexQueueSize = 10;
 
 const matrixLineLength = 28;
 const normalFruitCount = 292;
