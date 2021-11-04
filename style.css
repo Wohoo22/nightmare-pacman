@@ -1,0 +1,75 @@
+.grid {
+    display: flex;
+    flex-wrap: wrap;
+    width: 560px;
+    height: 560px;
+    border: solid black;
+    background-color: black;
+}
+  
+.grid div {
+    width: 20px;
+    height: 20px;
+}
+
+.start-button {
+    background-color: rgb(80, 133, 75);
+    border-color: rgb(80, 133, 75);
+    padding: 10px;
+    color: white;
+    border-radius: 10px;
+}
+
+.normal-fruit {
+    background-color: rgb(182, 182, 182);   
+    border: 8px solid black;
+    box-sizing: border-box;
+}
+
+.wall {
+    background-color: rgb(30, 30, 151);
+}
+
+.ghost-killer-fruit {
+    background-color: rgb(231, 231, 231);
+    border: 4px solid black;
+    box-sizing: border-box;
+    border-radius: 10px;
+}
+
+.ghost {
+    border-top-left-radius: 50px 50px;
+    border-top-right-radius: 50px 50px;
+    box-sizing: none;
+    border: none;
+}
+
+.orange-ghost {
+    background-color: orange;
+}
+
+.pink-ghost {
+    background-color: pink;
+}
+
+.blue-ghost {
+    background-color: cyan;
+}
+
+.green-ghost {
+    background-color: green;     
+}
+
+.pac-man {
+    background-color: rgb(255, 255, 0);
+    border-radius: 10px;
+}
+
+.scared-ghost {
+    background-color: rgb(255, 255, 255);
+}
+
+.score {
+    color: rgb(66, 109, 165);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
