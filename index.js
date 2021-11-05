@@ -337,7 +337,7 @@ function startGame() {
             ghost.isSpawning = false
             let previousIndex = ghost.currentIndex;
             let nextIndex = findOptimalGhostDir(pacmanIndex, ghost, graph);
-            while(ghost.previousIndexes.length > 5)
+            while(ghost.previousIndexes.length > 10)
                 ghost.previousIndexes.shift()
             if (!ghost.previousIndexes.includes(nextIndex))
                 ghost.previousIndexes.push(nextIndex)
@@ -452,15 +452,15 @@ function findOptimalGhostDir(pacmanIndex, ghost, graph) {
             subtract = 0;
             break;
         case "medium":
-            subtract = rnd(1);  
+            subtract = rnd(2);  
             break
         case "nightmare":
-            subtract = rnd(2);
-            if (subtract === 0) subtract++;
+            subtract = rnd(1);
             break
         default:
             break;
     }
+    console.log('sub',subtract)
     neightborDist.sort((x, y) => {
         if (x.dist < y.dist) return -1;
         if (x.dist > y.dist) return 1;
