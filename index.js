@@ -120,6 +120,7 @@ function startGame() {
                 gameEnded = true
                 document.removeEventListener('keyup', movePacmanListener)
                 alert("YOU LOSE :((((")
+                window.location.href = "https://www.youtube.com/watch?v=dQw4w9WgXcQ?rel=0&autoplay=1"
                 return
             }
         }
@@ -413,10 +414,6 @@ function findOptimalPacmanDir(pacmanIndex, graph, keyCode, lastLeftRightKeyCode,
             keyCode: rKeyCode,
             changeKeyCode: rKeyCode
         }
-        // console.log(res)
-        // console.log('pac',pacmanIndex)
-        // console.log('neigh',neighbors)
-        // console.log('lst', lastPacmanIndex)
         return res;
     }
 
