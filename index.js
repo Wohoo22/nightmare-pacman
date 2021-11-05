@@ -26,6 +26,10 @@ const configFormDefaultValues = {
     ghostSpeed: 100
 }
 
+// logic configuration
+const pacmanPathQueueSize = 5
+const ghostPathQueueSize = 10
+
 // map info, do not modify
 const matrixLineLength = 28;
 const normalFruitCount = 292;
@@ -260,7 +264,7 @@ function startGame() {
                 keyCode = dir.changeKeyCode
         }
 
-        while(lastPacmanIndexes.length > 5)
+        while(lastPacmanIndexes.length > pacmanPathQueueSize)
             lastPacmanIndexes.shift()
         if (!lastPacmanIndexes.includes(pacmanIndex))
             lastPacmanIndexes.push(pacmanIndex);
@@ -352,7 +356,7 @@ function startGame() {
             ghost.isSpawning = false
             let previousIndex = ghost.currentIndex;
             let nextIndex = findOptimalGhostDir(pacmanIndex, ghost, graph);
-            while(ghost.previousIndexes.length > 10)
+            while(ghost.previousIndexes.length > ghostPathQueueSize)
                 ghost.previousIndexes.shift()
             if (!ghost.previousIndexes.includes(nextIndex))
                 ghost.previousIndexes.push(nextIndex)
@@ -472,10 +476,10 @@ function findOptimalGhostDir(pacmanIndex, ghost, graph) {
             subtract = 0;
             break;
         case "medium":
-            subtract = rnd(1);  
+            subtract = rnd(2);  
             break
         case "nightmare":
-            subtract = rnd(2);
+            subtract = rnd(1);
             break
         default:
             break;
