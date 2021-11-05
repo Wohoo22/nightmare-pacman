@@ -63,24 +63,40 @@ const pattern = [
 
 function setGhostKillerFruitDuration () {
     const userVal = document.getElementById("ghostKillerFruitDuration").value
+    if (userVal < 0) {
+        alert("Power pellet duration must be greater than or equal to 0")
+        return
+    }
     if (userVal != undefined)
         ghostKillerFruitDuration = userVal * 1000
 }
 
 function setGhostDelayBeforeRespawn () {
     const userVal = document.getElementById("ghostDelayBeforeRespawn").value
+    if (userVal < 0) {
+        alert("Ghost respawn duration must be greater than or equal to 0")
+        return
+    }
     if (userVal != undefined)
         ghostDelayBeforeRespawn = userVal * 1000
 }
 
 function setGhostSpeed () {
     const userVal = document.getElementById("ghostSpeed").value
+    if (userVal <= 0 || userVal > 200) {
+        alert("Ghost speed must be in the range 1-200")
+        return
+    }
     if (userVal != undefined)
         ghostSpeed = 201 - userVal
 }
 
 function setPacmanSpeed () {
     const userVal = document.getElementById("pacmanSpeed").value
+    if (userVal <= 0 || userVal > 200) {
+        alert("Pacman speed must be in the range 1-200")
+        return
+    }
     if (userVal != undefined)
         pacmanSpeed = 201 - userVal   
 }
@@ -438,44 +454,42 @@ function findOptimalGhostDir(pacmanIndex, ghost, graph) {
         return Math.floor(Math.random() * (up + 1));
     }
     const dist = dijkstra(graph, pacmanIndex);
-    const neightborDist = []
+    const neighborDist = []
     for (const neightbor of graph[ghost.currentIndex].neighbors) {
-        neightborDist.push({
+        neighborDist.push({
             index: neightbor,
             dist: dist[neightbor]
         })
     }
+    neighborDist.sort((x, y) => {
+        if (x.dist < y.dist) return -1;
+        if (x.dist > y.dist) return 1;
+        return 0;
+    })
     let subtract = 0
     switch (getMode()) {
         case "easy":
             subtract = 0;
             break;
         case "medium":
-            subtract = rnd(2);  
+            subtract = rnd(1);  
             break
         case "nightmare":
-            subtract = rnd(1);
+            subtract = rnd(2);
             break
         default:
             break;
     }
-    neightborDist.sort((x, y) => {
-        if (x.dist < y.dist) return -1;
-        if (x.dist > y.dist) return 1;
-        return 0;
-    })
-    let ran = Math.floor(
-        Math.random() * (neightborDist.length - subtract)
-    );
+    let ran = rnd(neighborDist.length - 1 - subtract);
+    if (ran < 0) ran = 0;
     let counter = 0
-    while (ghost.previousIndexes.includes(neightborDist[ran].index)
+    while (ghost.previousIndexes.includes(neighborDist[ran].index)
             && counter < 10) {
-        ran = Math.floor(
-            Math.random() * (neightborDist.length - subtract)
-        );
+        ran = rnd(neighborDist.length - 1 - subtract);
+        if (ran < 0) ran = 0;
         counter++;
     }
-    return neightborDist[ran].index;
+    return neighborDist[ran].index;
 }
 
 function findOptimalPacmanDir(pacmanIndex, graph, keyCode, lastLeftRightKeyCode, lastUpDownKeyCode, lastPacmanIndexes) {
