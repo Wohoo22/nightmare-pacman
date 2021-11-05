@@ -15,10 +15,17 @@ const cssClassConfig = {
 }
 
 // config
-const ghostKillerFruitTime = 5000;
-const ghostSpeed = 100;
-const pacmanSpeed = 90;
-const ghostDelayBeforeRespawn = 2000;
+let ghostKillerFruitDuration = 5000;
+let ghostSpeed = 100;
+let pacmanSpeed = 90;
+let ghostDelayBeforeRespawn = 4000;
+
+const configFormDefaultValues = {
+    ghostKillerFruitDuration: 5,
+    ghostDelayBeforeRespawn: 4,
+    pacmanSpeed: 110,
+    ghostSpeed: 100
+}
 
 const matrixLineLength = 28;
 const normalFruitCount = 292;
@@ -53,6 +60,45 @@ const pattern = [
     1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
     1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1
 ];
+
+function setGhostKillerFruitDuration () {
+    const userVal = document.getElementById("ghostKillerFruitDuration").value
+    if (userVal != undefined)
+        ghostKillerFruitDuration = userVal * 1000
+}
+
+function setGhostDelayBeforeRespawn () {
+    const userVal = document.getElementById("ghostDelayBeforeRespawn").value
+    if (userVal != undefined)
+        ghostDelayBeforeRespawn = userVal * 1000
+}
+
+function setGhostSpeed () {
+    const userVal = document.getElementById("ghostSpeed").value
+    if (userVal != undefined)
+        ghostSpeed = 201 - userVal
+}
+
+function setPacmanSpeed () {
+    const userVal = document.getElementById("pacmanSpeed").value
+    if (userVal != undefined)
+        pacmanSpeed = 201 - userVal   
+}
+
+function setConfig () {
+    setGhostKillerFruitDuration()
+    setGhostDelayBeforeRespawn()
+    setGhostSpeed()
+    setPacmanSpeed()
+}
+
+function resetConfig () {
+    document.getElementById("ghostKillerFruitDuration").value = configFormDefaultValues.ghostKillerFruitDuration
+    document.getElementById("ghostDelayBeforeRespawn").value = configFormDefaultValues.ghostDelayBeforeRespawn
+    document.getElementById("ghostSpeed").value = configFormDefaultValues.ghostSpeed
+    document.getElementById("pacmanSpeed").value = configFormDefaultValues.pacmanSpeed
+    setConfig()
+}
 
 function createMatrix1D() {
     const grid = document.querySelector('.grid');
@@ -99,8 +145,27 @@ const Keycode = {
     DOWN: 40
 }
 
+const intervals = []
+function stopIntervals () {
+    for (const interval of intervals) {
+        clearInterval(interval)
+    }
+    intervals.length = 0
+}
+
+function getMode () {
+    const modes = document.getElementsByName("level")
+    for (const mode of modes) {
+        if (mode.checked) {
+            return mode.value
+        }
+    }
+    modes[0].checked = true
+    return modes[0].value
+}
 
 function startGame() {
+
     // create map
     const matrix1D = createMatrix1D();
 
@@ -112,7 +177,6 @@ function startGame() {
     // initialize pacman
     let pacmanIndex = createPacman(matrix1D);
 
-    // checker functions
     const checkGameOver = () => {
         for (const ghost of ghosts) {
             if (!ghost.isScared
@@ -120,6 +184,7 @@ function startGame() {
                 gameEnded = true
                 document.removeEventListener('keyup', movePacmanListener)
                 alert("YOU LOSE :((((")
+                stopIntervals();
                 // window.location.href = "https://www.youtube.com/watch?v=dQw4w9WgXcQ?rel=0&autoplay=1"
                 return
             }
@@ -213,7 +278,7 @@ function startGame() {
                 setTimeout(() => {
                     for (ghost of ghosts)
                         ghost.isScared = false
-                }, ghostKillerFruitTime)
+                }, ghostKillerFruitDuration)
             }
         }
         ghostKillerFruitEaten();
@@ -223,6 +288,7 @@ function startGame() {
                 gameEnded = true
                 document.removeEventListener('keyup', movePacmanListener)
                 alert("YOU WIN !!!")
+                stopIntervals();
             }
         }
         checkWin()
@@ -233,13 +299,13 @@ function startGame() {
         // movePacman();
     }
     document.addEventListener('keyup', movePacmanListener)
-    setInterval(function () {
+    intervals.push(setInterval(function () {
         if (keyCode === Keycode.LEFT || keyCode === Keycode.RIGHT)
             gameStarted = true
         if (gameEnded || !gameStarted)
             return
         movePacman()
-    }, pacmanSpeed)
+    }, pacmanSpeed))
 
     // my little ghosts <3
     class Ghost {
@@ -249,6 +315,7 @@ function startGame() {
             this.startIndex = currentIndex;
             this.isScared = false;
             this.isSpawning = false;
+            this.previousIndexes = []
         }
     }
     const ghosts = [
@@ -266,12 +333,14 @@ function startGame() {
 
     // handle ghost movement
     const moveGhost = (ghost) => {
-        const move = (dir) => {
+        const move = () => {
             ghost.isSpawning = false
             let previousIndex = ghost.currentIndex;
             let nextIndex = findOptimalGhostDir(pacmanIndex, ghost, graph);
-            if (!validMove(nextIndex, matrix1D))
-                return false;
+            while(ghost.previousIndexes.length > 5)
+                ghost.previousIndexes.shift()
+            if (!ghost.previousIndexes.includes(nextIndex))
+                ghost.previousIndexes.push(nextIndex)
             const haveAnotherScaredGhost = (index) => {
                 for (const aGhost of ghosts) {
                     if (aGhost !== ghost
@@ -304,11 +373,11 @@ function startGame() {
             checkGameOver()
             return true;
         }
-        setInterval(() => {
+        intervals.push(setInterval(() => {
             if (gameEnded || ghost.isSpawning)
                 return;
             move()
-        }, ghostSpeed);
+        }, ghostSpeed));
     }
     const startGhost = () => {
         if (gameStarted) {
@@ -366,16 +435,49 @@ function buildGraph(matrix) {
 }
 
 function findOptimalGhostDir(pacmanIndex, ghost, graph) {
-    const dist = dijkstra(graph, pacmanIndex);
-    let mnDist = Number.MAX_SAFE_INTEGER;
-    let mnNeighbor = -1;
-    for (const neightbor of graph[ghost.currentIndex].neighbors) {
-        if (dist[neightbor] < mnDist) {
-            mnDist = dist[neightbor];
-            mnNeighbor = neightbor;
-        }
+    const rnd = (up) => {
+        return Math.floor(Math.random() * (up + 1));
     }
-    return mnNeighbor;
+    const dist = dijkstra(graph, pacmanIndex);
+    const neightborDist = []
+    for (const neightbor of graph[ghost.currentIndex].neighbors) {
+        neightborDist.push({
+            index: neightbor,
+            dist: dist[neightbor]
+        })
+    }
+    let subtract = 0
+    switch (getMode()) {
+        case "easy":
+            subtract = 0;
+            break;
+        case "medium":
+            subtract = rnd(1);  
+            break
+        case "nightmare":
+            subtract = rnd(2);
+            if (subtract === 0) subtract++;
+            break
+        default:
+            break;
+    }
+    neightborDist.sort((x, y) => {
+        if (x.dist < y.dist) return -1;
+        if (x.dist > y.dist) return 1;
+        return 0;
+    })
+    let ran = Math.floor(
+        Math.random() * (neightborDist.length - subtract)
+    );
+    let counter = 0
+    while (ghost.previousIndexes.includes(neightborDist[ran].index)
+            && counter < 10) {
+        ran = Math.floor(
+            Math.random() * (neightborDist.length - subtract)
+        );
+        counter++;
+    }
+    return neightborDist[ran].index;
 }
 
 function findOptimalPacmanDir(pacmanIndex, graph, keyCode, lastLeftRightKeyCode, lastUpDownKeyCode, lastPacmanIndexes) {
@@ -389,7 +491,7 @@ function findOptimalPacmanDir(pacmanIndex, graph, keyCode, lastLeftRightKeyCode,
     if (neighbors.length === 2
         &&  // not in the same line
         !(
-            (Math.abs(neighbors[0] - neighbors[1]) === matrixLineLength * 2)
+            (Math.abs(neighbors[0] - neighbors[1]) === matrixLineLength * 2) // same column
             || (Math.abs(neighbors[0] - neighbors[1]) === 2) // same line
         )
     ) {
@@ -488,11 +590,14 @@ function dijkstra(graph, src) {
 }
 
 function restartGame() {
+    stopIntervals();
     const grid = document.querySelector('.grid');
     grid.innerHTML = ""
+    setConfig()
     startGame()
 }
 
 document.addEventListener('DOMContentLoaded', () => {
+    resetConfig()
     startGame();
 })

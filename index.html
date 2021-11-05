@@ -16,22 +16,23 @@
       </div>
       <div class="config">
         <h3 class="score">Score: <span id="score" style="color: rgb(204, 204, 57)"></span></h3>
-        <button class="start-button" onclick="restartGame()">Restart</button>
+        <button class="start-button" onclick="restartGame()">Restart & Apply setting</button>
         <form>
           <label class="config-label">Level</label>
-          <input type="radio" name="level"> <label class="config-radio-label">Easy</label>
-          <input type="radio" name="level"> <label class="config-radio-label">Medium</label>
-          <input type="radio" name="level"> <label class="config-radio-label">Nightmare</label>
+          <input type="radio" name="level" value="easy"> <label class="config-radio-label">Easy</label>
+          <input type="radio" name="level" value="medium"> <label class="config-radio-label">Medium</label>
+          <input type="radio" name="level" value="nightmare"> <label class="config-radio-label">Nightmare</label>
         </form>
         <form class="config-form">
           <label for="fname" class="config-label">Power pellet duration</label> 
-          <input type="text" id="fname" name="fname" class="config-input"  placeholder="Enter value in second">
+          <input type="text" id="ghostKillerFruitDuration" name="fname" class="config-input"  placeholder="Enter value in second">
           <label for="fname" class="config-label">Ghost respawn duration</label>
-          <input type="text" id="fname" name="fname" class="config-input" placeholder="Enter value in second">
+          <input type="text" id="ghostDelayBeforeRespawn" name="fname" class="config-input" placeholder="Enter value in second">
           <label for="fname" class="config-label">Ghost speed</label>
-          <input type="text" id="fname" name="fname" class="config-input" placeholder="Enter value in range 1-100">
+          <input type="text" id="ghostSpeed" name="fname" class="config-input" placeholder="Enter value in range 1-200">
           <label for="fname" class="config-label">Pacman speed</label>
-          <input type="text" id="fname" name="fname" class="config-input" placeholder="Enter value in range 1-100">
+          <input type="text" id="pacmanSpeed" name="fname" class="config-input" placeholder="Enter value in range 1-200">
+          <button type="button" class="reset-config-button" onclick="resetConfig()">Reset default values</button>
         </form>
       </div>
     </div>
