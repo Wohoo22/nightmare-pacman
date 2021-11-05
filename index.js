@@ -120,7 +120,7 @@ function startGame() {
                 gameEnded = true
                 document.removeEventListener('keyup', movePacmanListener)
                 alert("YOU LOSE :((((")
-                window.location.href = "https://www.youtube.com/watch?v=dQw4w9WgXcQ?rel=0&autoplay=1"
+                // window.location.href = "https://www.youtube.com/watch?v=dQw4w9WgXcQ?rel=0&autoplay=1"
                 return
             }
         }
@@ -485,6 +485,12 @@ function dijkstra(graph, src) {
         }
     }
     return dist;
+}
+
+function restartGame() {
+    const grid = document.querySelector('.grid');
+    grid.innerHTML = ""
+    startGame()
 }
 
 document.addEventListener('DOMContentLoaded', () => {
