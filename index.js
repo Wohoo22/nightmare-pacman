@@ -205,7 +205,7 @@ function startGame() {
                 document.removeEventListener('keyup', movePacmanListener)
                 alert("YOU LOSE :((((")
                 stopIntervals();
-                // window.location.href = "https://www.youtube.com/watch?v=dQw4w9WgXcQ?rel=0&autoplay=1"
+                window.open('https://www.youtube.com/watch?v=dQw4w9WgXcQ?rel=0&autoplay=1','_blank');
                 return
             }
         }
