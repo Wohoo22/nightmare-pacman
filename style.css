@@ -24,6 +24,25 @@
     margin-bottom: 15px;
 }
 
+.header {
+    color:rgb(255, 145, 0);
+    font-size: xx-large;
+    font-weight: 900;
+    font-family: Arial, Helvetica, sans-serif;
+    text-align: center;
+    margin-bottom: 70px;
+}
+
+#title {
+    color: rgb(236, 74, 25);
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+}
+
+.start-button:hover {
+    background-color: rgb(134, 107, 57);
+    border-color: yellow;
+}
+
 .normal-fruit {
     background-color: rgb(182, 182, 182);   
     border: 8px solid black;
@@ -96,8 +115,8 @@
 }
 
 .config-form {
-    border-color: white;
-    border: 1px solid rgb(87, 133, 134);
+    border: 1px solid rgb(116, 60, 43);
+    border-radius: 20px;
     display: inline-block;
     padding: 10px;
     margin-top: 20px;

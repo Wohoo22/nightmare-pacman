@@ -7,28 +7,31 @@
     <script src="index.js" charset="utf-8"></script>
   </head>
   <body style="background-color:black;"></body>>
+    <div class="header"> 
+      <h1 id="title"> The nightmare Pacman </h1> 
+      <span> Press UP, DOWN, LEFT, RIGHT arrows to play </span> </div>
     <div class="main">
       <div class="grid-container">
         <div class="grid"></div>
       </div>
       <div class="config">
         <h3 class="score">Score: <span id="score" style="color: rgb(204, 204, 57)"></span></h3>
-        <button class="start-button" onclick="startGame()">Restart</button>
+        <button class="start-button" onclick="restartGame()">Restart</button>
         <form>
-          <label class="config-label">Độ khó</label>
+          <label class="config-label">Level</label>
           <input type="radio" name="level"> <label class="config-radio-label">Easy</label>
           <input type="radio" name="level"> <label class="config-radio-label">Medium</label>
           <input type="radio" name="level"> <label class="config-radio-label">Nightmare</label>
         </form>
         <form class="config-form">
-          <label for="fname" class="config-label">THỜI GIAN HIỆU LỰC HẠT SỨC MẠNH</label> 
-          <input type="text" id="fname" name="fname" class="config-input"  placeholder="Nhập số giây">
-          <label for="fname" class="config-label">THỜI GIAN HỒI SINH CỦA MA</label>
-          <input type="text" id="fname" name="fname" class="config-input" placeholder="Nhập số giây">
-          <label for="fname" class="config-label">TỐC ĐỘ CỦA MA</label>
-          <input type="text" id="fname" name="fname" class="config-input" placeholder="Nhập số từ 1 đến 100">
-          <label for="fname" class="config-label">TỐC ĐỘ CỦA PACMAN</label>
-          <input type="text" id="fname" name="fname" class="config-input" placeholder="Nhập số từ 1 đến 100">
+          <label for="fname" class="config-label">Power pellet duration</label> 
+          <input type="text" id="fname" name="fname" class="config-input"  placeholder="Enter value in second">
+          <label for="fname" class="config-label">Ghost respawn duration</label>
+          <input type="text" id="fname" name="fname" class="config-input" placeholder="Enter value in second">
+          <label for="fname" class="config-label">Ghost speed</label>
+          <input type="text" id="fname" name="fname" class="config-input" placeholder="Enter value in range 1-100">
+          <label for="fname" class="config-label">Pacman speed</label>
+          <input type="text" id="fname" name="fname" class="config-input" placeholder="Enter value in range 1-100">
         </form>
       </div>
     </div>
