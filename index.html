@@ -7,8 +7,30 @@
     <script src="index.js" charset="utf-8"></script>
   </head>
   <body style="background-color:black;"></body>>
-    <div class="grid"></div>
-    <h3 class="score">SCORE: <span id="score" style="color: rgb(204, 204, 57)"></span></h3>
-    <button class="start-button" onclick="startGame()">START</button>
+    <div class="main">
+      <div class="grid-container">
+        <div class="grid"></div>
+      </div>
+      <div class="config">
+        <h3 class="score">Score: <span id="score" style="color: rgb(204, 204, 57)"></span></h3>
+        <button class="start-button" onclick="startGame()">Restart</button>
+        <form>
+          <label class="config-label">Độ khó</label>
+          <input type="radio" name="level"> <label class="config-radio-label">Easy</label>
+          <input type="radio" name="level"> <label class="config-radio-label">Medium</label>
+          <input type="radio" name="level"> <label class="config-radio-label">Nightmare</label>
+        </form>
+        <form class="config-form">
+          <label for="fname" class="config-label">THỜI GIAN HIỆU LỰC HẠT SỨC MẠNH</label> 
+          <input type="text" id="fname" name="fname" class="config-input"  placeholder="Nhập số giây">
+          <label for="fname" class="config-label">THỜI GIAN HỒI SINH CỦA MA</label>
+          <input type="text" id="fname" name="fname" class="config-input" placeholder="Nhập số giây">
+          <label for="fname" class="config-label">TỐC ĐỘ CỦA MA</label>
+          <input type="text" id="fname" name="fname" class="config-input" placeholder="Nhập số từ 1 đến 100">
+          <label for="fname" class="config-label">TỐC ĐỘ CỦA PACMAN</label>
+          <input type="text" id="fname" name="fname" class="config-input" placeholder="Nhập số từ 1 đến 100">
+        </form>
+      </div>
+    </div>
   </body>
 </html>
