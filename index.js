@@ -19,7 +19,6 @@ let ghostKillerFruitDuration = 5000;
 let ghostSpeed = 100;
 let pacmanSpeed = 90;
 let ghostDelayBeforeRespawn = 4000;
-
 const configFormDefaultValues = {
     ghostKillerFruitDuration: 5,
     ghostDelayBeforeRespawn: 4,
@@ -27,6 +26,7 @@ const configFormDefaultValues = {
     ghostSpeed: 100
 }
 
+// map info, do not modify
 const matrixLineLength = 28;
 const normalFruitCount = 292;
 
@@ -296,7 +296,6 @@ function startGame() {
 
     const movePacmanListener = (e) => {
         keyCode = e.keyCode;
-        // movePacman();
     }
     document.addEventListener('keyup', movePacmanListener)
     intervals.push(setInterval(function () {
@@ -460,7 +459,6 @@ function findOptimalGhostDir(pacmanIndex, ghost, graph) {
         default:
             break;
     }
-    console.log('sub',subtract)
     neightborDist.sort((x, y) => {
         if (x.dist < y.dist) return -1;
         if (x.dist > y.dist) return 1;
