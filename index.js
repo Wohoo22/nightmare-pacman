@@ -617,3 +617,32 @@ document.addEventListener('DOMContentLoaded', () => {
     resetConfig()
     startGame();
 })
+
+function hideButtons() {
+    document.getElementById('button-container').style.display = 'none'
+}
+
+function showButtons () {
+    document.getElementById('button-container').style.display = 'inline-block'
+}
+
+function go (s) {
+    let keyCode
+    switch (s) {
+        case 'u':
+            keyCode =  Keycode.UP
+            break
+        case 'd':
+            keyCode =  Keycode.DOWN
+            break
+        case 'l':
+            keyCode =  Keycode.LEFT
+            break
+        case 'r':
+            keyCode =  Keycode.RIGHT
+            break            
+    }
+    var event = new CustomEvent("keyup", {});
+    event.keyCode = keyCode
+    document.dispatchEvent(event);
+}
