@@ -143,6 +143,12 @@
     justify-content: space-around;
 }
 
+@media screen and (max-width: 1000px) {
+    .main {
+        flex-direction: column;
+    }
+}
+
 .reset-config-button {
     background-color: rgb(252, 45, 9);
     border-color: rgb(187, 97, 81);
