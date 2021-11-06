@@ -614,6 +614,7 @@ function restartGame() {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
+    hideButtons()
     resetConfig()
     startGame();
 })
