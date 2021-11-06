@@ -32,7 +32,7 @@ const ghostPathQueueSize = 10
 
 // map info, do not modify
 const matrixLineLength = 28;
-const normalFruitCount = 292;
+const normalFruitCount = 238;
 
 const pattern = [
     1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
