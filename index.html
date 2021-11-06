@@ -14,7 +14,15 @@
       <div class="grid-container">
         <div class="grid"></div>
       </div>
+      <div class="button-container" id="button-container">
+        <button type="button" class="button" onclick="go('u')" id="up-btn" style="display: block; margin-left: 65px; margin-bottom: 10px;">UP</button>
+        <button type="button" class="button" onclick="go('l')">LEFT</button>
+        <button type="button" class="button" onclick="go('r')" style="margin-left: 40px;">RIGHT</button>
+        <button type="button" class="button" onclick="go('d')" style="display: block; margin-left: 60px; margin-top: 10px;">DOWN</button>
+      </div>
       <div class="config">
+        <button class="hide-btns-button" id="hide-btns-button" onclick="hideButtons()">Hide control buttons</button>
+        <button class="show-btns-button" id="show-btns-button" onclick="showButtons()">Show control buttons</button>
         <h3 class="score">Score: <span id="score" style="color: rgb(204, 204, 57)"></span></h3>
         <button class="start-button" onclick="restartGame()">Restart & Apply setting</button>
         <form>
