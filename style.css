@@ -146,6 +146,7 @@
     background-color: rgb(255, 145, 0);
     border: 2px solid rgb(180, 142, 44);
     font-weight: 900;
+    border-radius: 17px;
 }
 
 .button:hover {
