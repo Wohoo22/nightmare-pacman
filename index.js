@@ -65,7 +65,7 @@ const pattern = [
     1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1
 ];
 
-function setGhostKillerFruitDuration () {
+function setGhostKillerFruitDuration() {
     const userVal = document.getElementById("ghostKillerFruitDuration").value
     if (userVal < 0) {
         alert("Power pellet duration must be greater than or equal to 0")
@@ -75,7 +75,7 @@ function setGhostKillerFruitDuration () {
         ghostKillerFruitDuration = userVal * 1000
 }
 
-function setGhostDelayBeforeRespawn () {
+function setGhostDelayBeforeRespawn() {
     const userVal = document.getElementById("ghostDelayBeforeRespawn").value
     if (userVal < 0) {
         alert("Ghost respawn duration must be greater than or equal to 0")
@@ -85,7 +85,7 @@ function setGhostDelayBeforeRespawn () {
         ghostDelayBeforeRespawn = userVal * 1000
 }
 
-function setGhostSpeed () {
+function setGhostSpeed() {
     const userVal = document.getElementById("ghostSpeed").value
     if (userVal <= 0 || userVal > 200) {
         alert("Ghost speed must be in the range 1-200")
@@ -95,24 +95,24 @@ function setGhostSpeed () {
         ghostSpeed = 201 - userVal
 }
 
-function setPacmanSpeed () {
+function setPacmanSpeed() {
     const userVal = document.getElementById("pacmanSpeed").value
     if (userVal <= 0 || userVal > 200) {
         alert("Pacman speed must be in the range 1-200")
         return
     }
     if (userVal != undefined)
-        pacmanSpeed = 201 - userVal   
+        pacmanSpeed = 201 - userVal
 }
 
-function setConfig () {
+function setConfig() {
     setGhostKillerFruitDuration()
     setGhostDelayBeforeRespawn()
     setGhostSpeed()
     setPacmanSpeed()
 }
 
-function resetConfig () {
+function resetConfig() {
     document.getElementById("ghostKillerFruitDuration").value = configFormDefaultValues.ghostKillerFruitDuration
     document.getElementById("ghostDelayBeforeRespawn").value = configFormDefaultValues.ghostDelayBeforeRespawn
     document.getElementById("ghostSpeed").value = configFormDefaultValues.ghostSpeed
@@ -166,14 +166,14 @@ const Keycode = {
 }
 
 const intervals = []
-function stopIntervals () {
+function stopIntervals() {
     for (const interval of intervals) {
         clearInterval(interval)
     }
     intervals.length = 0
 }
 
-function getMode () {
+function getMode() {
     const modes = document.getElementsByName("level")
     for (const mode of modes) {
         if (mode.checked) {
@@ -205,7 +205,7 @@ function startGame() {
                 document.removeEventListener('keyup', movePacmanListener)
                 alert("YOU LOSE :((((")
                 stopIntervals();
-                window.open('https://www.youtube.com/watch?v=dQw4w9WgXcQ?rel=0&autoplay=1','_blank');
+                window.open('https://www.youtube.com/watch?v=dQw4w9WgXcQ?rel=0&autoplay=1', '_blank');
                 return
             }
         }
@@ -264,11 +264,11 @@ function startGame() {
                 keyCode = dir.changeKeyCode
         }
 
-        while(lastPacmanIndexes.length > pacmanPathQueueSize)
+        while (lastPacmanIndexes.length > pacmanPathQueueSize)
             lastPacmanIndexes.shift()
         if (!lastPacmanIndexes.includes(pacmanIndex))
             lastPacmanIndexes.push(pacmanIndex);
-        
+
 
         switch (chosenKeycode) {
             case Keycode.RIGHT:
@@ -356,7 +356,7 @@ function startGame() {
             ghost.isSpawning = false
             let previousIndex = ghost.currentIndex;
             let nextIndex = findOptimalGhostDir(pacmanIndex, ghost, graph);
-            while(ghost.previousIndexes.length > ghostPathQueueSize)
+            while (ghost.previousIndexes.length > ghostPathQueueSize)
                 ghost.previousIndexes.shift()
             if (!ghost.previousIndexes.includes(nextIndex))
                 ghost.previousIndexes.push(nextIndex)
@@ -476,7 +476,7 @@ function findOptimalGhostDir(pacmanIndex, ghost, graph) {
             subtract = 0;
             break;
         case "medium":
-            subtract = rnd(2);  
+            subtract = rnd(2);
             break
         case "nightmare":
             subtract = rnd(1);
@@ -488,7 +488,7 @@ function findOptimalGhostDir(pacmanIndex, ghost, graph) {
     if (ran < 0) ran = 0;
     let counter = 0
     while (ghost.previousIndexes.includes(neighborDist[ran].index)
-            && counter < 10) {
+        && counter < 10) {
         ran = rnd(neighborDist.length - 1 - subtract);
         if (ran < 0) ran = 0;
         counter++;
@@ -623,27 +623,45 @@ function hideButtons() {
     document.getElementById('button-container').style.display = 'none'
 }
 
-function showButtons () {
+function showButtons() {
     document.getElementById('button-container').style.display = 'inline-block'
 }
 
-function go (s) {
+function go(s) {
     let keyCode
     switch (s) {
         case 'u':
-            keyCode =  Keycode.UP
+            keyCode = Keycode.UP
             break
         case 'd':
-            keyCode =  Keycode.DOWN
+            keyCode = Keycode.DOWN
             break
         case 'l':
-            keyCode =  Keycode.LEFT
+            keyCode = Keycode.LEFT
             break
         case 'r':
-            keyCode =  Keycode.RIGHT
-            break            
+            keyCode = Keycode.RIGHT
+            break
     }
     var event = new CustomEvent("keyup", {});
     event.keyCode = keyCode
     document.dispatchEvent(event);
 }
+
+// prevent scroll
+var keys = {};
+window.addEventListener("keydown",
+    function (e) {
+        keys[e.keyCode] = true;
+        switch (e.keyCode) {
+            case 37: case 39: case 38: case 40: // Arrow keys
+            case 32: e.preventDefault(); break; // Space
+            default: break; // do not block other keys
+        }
+    },
+    false);
+window.addEventListener('keyup',
+    function (e) {
+        keys[e.keyCode] = false;
+    },
+    false);
