@@ -49,6 +49,21 @@
     box-sizing: border-box;
 }
 
+@media screen and (max-width: 1000px) {
+    .grid {
+        width: 392px;
+        height: 392px;
+    }
+    .grid div {
+        width:14px;
+        height: 14px;
+    }
+    .normal-fruit {
+        border: 5px solid black;
+    }
+}
+
+
 .wall {
     background-color: rgb(30, 30, 151);
 }
