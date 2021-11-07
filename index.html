@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+    <head>
+        <style>
+            .title {
+                color: rgb(236, 74, 25);
+                font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;   
+                font-size: 70px;         
+            }
+            .description {
+                color: orange;
+                font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;  
+                font-size: 35px;                   
+            }
+            .start-btn {
+                background-color: rgb(14, 14, 172);
+                border-color: blue;
+                color: white;
+                padding: 20px;
+                font-weight: 900;
+                font-size: large;
+            }
+            .pacman {
+                display: block;
+            }
+            .pacman-container {
+                display: flex;
+                align-items: center;
+                justify-content: space-around;
+                margin-bottom: 50px;
+            }
+        </style>
+    </head>
+    <body style="background-color:black; text-align: center;">
+        <h1 class="title">
+            The nightmare pacman
+        </h1>
+        <h3 class="description">
+            The hardest pacman game ever made
+        </h3>
+        <div class="pacman-container">
+            <img src="pacman.jpg" alt="Girl in a jacket" width="440" height="400" class="pacman"> 
+        </div>
+        <button onclick="startPlaying()" class="start-btn">
+            Click here to begin your nightmare
+        </button>
+    </body>
+    <script>
+        function startPlaying() {
+            window.location.href = 'game.html'
+        }
+    </script>
+</html>
