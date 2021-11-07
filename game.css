@@ -51,12 +51,12 @@
 
 @media screen and (max-width: 1000px) {
     .grid {
-        width: 392px;
-        height: 392px;
+        width: 336px;
+        height: 336px;
     }
     .grid div {
-        width:14px;
-        height: 14px;
+        width: 12px;
+        height: 12px;
     }
     .normal-fruit {
         border: 5px solid black;
