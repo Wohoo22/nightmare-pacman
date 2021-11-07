@@ -226,6 +226,8 @@ function startGame() {
     // create graph for running algorithm
     const graph = buildGraph(matrix1D);
 
+    let ghostKillerFruitEatenCounter = 0
+
     // handle pacman movement
     let keyCode = -1
     let lastLeftRightKeyCode = Keycode.RIGHT;
@@ -295,9 +297,12 @@ function startGame() {
                 matrix1D[pacmanIndex].classList.remove(cssClassConfig.GHOST_KILLER_FRUIT);
                 for (ghost of ghosts)
                     ghost.isScared = true
+                ghostKillerFruitEatenCounter++;
                 setTimeout(() => {
-                    for (ghost of ghosts)
-                        ghost.isScared = false
+                    ghostKillerFruitEatenCounter--;
+                    if (ghostKillerFruitEatenCounter == 0)
+                        for (ghost of ghosts)
+                            ghost.isScared = false
                 }, ghostKillerFruitDuration)
             }
         }
