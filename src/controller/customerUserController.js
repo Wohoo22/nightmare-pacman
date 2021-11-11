@@ -12,14 +12,7 @@ module.exports = (container) => {
   const addCustomerUser = async (req, res) => {
     try {
       const userInfo = req.body
-      const {
-        error,
-        value
-      } = await schemaValidator(userInfo, 'CustomerUser')
-      if (error) {
-        return res.status(httpCode.BAD_REQUEST).send({ msg: error.message })
-      }
-      const { statusCode, data } = await beHelper.addUser(value)
+      const { statusCode, data } = await beHelper.addUser(userInfo)
       res.status(statusCode).send(data)
     } catch (e) {
       logger.e(e)
