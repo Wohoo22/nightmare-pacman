@@ -1,8 +1,12 @@
+import Storage from './storage';
+
 function currentMillis(): number {
   return new Date().getTime();
 }
 
-export default function implementStorage(size: number) {
+export default function implementStorage(defaultSize: number): Storage {
+  let size: number = defaultSize;
+
   const cache = new Map<string, any>();
   const insertedAtMillis = new Map<string, any>();
   const startRefreshingAtMillis = new Map<string, number>();
@@ -26,11 +30,11 @@ export default function implementStorage(size: number) {
 
   const has = (k: string) => cache.has(k);
 
-  const startRefresh = (k: string): void => {
+  const startRefreshing = (k: string): void => {
     startRefreshingAtMillis.set(k, currentMillis());
   };
 
-  const stopRefresh = (k: string): void => {
+  const stopRefreshing = (k: string): void => {
     startRefreshingAtMillis.delete(k);
   };
 
@@ -44,12 +48,17 @@ export default function implementStorage(size: number) {
 
   const getAliveTimeInMillis = (k: string): number => currentMillis() - insertedAtMillis.get(k);
 
+  const setSize = (val: number) => {
+    size = val;
+  };
+
   return {
-    get,
     set,
+    get,
     has,
-    startRefresh,
-    stopRefresh,
+    startRefreshing,
+    stopRefreshing,
+    setSize,
     isRefreshing,
     getAliveTimeInMillis,
   };

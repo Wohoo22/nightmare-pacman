@@ -11,7 +11,7 @@ function convertToMillis(time: Time) {
   return minutes * 60000 + seconds * 1000 + millis;
 }
 
-export default function implementCache(defaultSize: number, md5: any, storage: Storage): Cache {
+export default function implementCache(md5: any, storage: Storage): Cache {
   function setSize(value: number): void {
     storage.setSize(value);
   }
