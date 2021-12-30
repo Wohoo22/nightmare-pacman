@@ -4,9 +4,7 @@ function currentMillis(): number {
   return new Date().getTime();
 }
 
-export default function implementStorage(defaultSize: number): Storage {
-  let size: number = defaultSize;
-
+export default function implementStorage(size: number): Storage {
   const cache = new Map<string, any>();
   const insertedAtMillis = new Map<string, any>();
   const startRefreshingAtMillis = new Map<string, number>();
@@ -48,17 +46,12 @@ export default function implementStorage(defaultSize: number): Storage {
 
   const getAliveTimeInMillis = (k: string): number => currentMillis() - insertedAtMillis.get(k);
 
-  const setSize = (val: number) => {
-    size = val;
-  };
-
   return {
     set,
     get,
     has,
     startRefreshing,
     stopRefreshing,
-    setSize,
     isRefreshing,
     getAliveTimeInMillis,
   };

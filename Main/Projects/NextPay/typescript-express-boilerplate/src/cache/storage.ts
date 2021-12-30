@@ -4,7 +4,6 @@ export default interface Storage {
   has: (k: string) => boolean
   startRefreshing: (k: string) => void
   stopRefreshing: (k: string) => void
-  setSize: (val: number) => void
   isRefreshing: (k: string, refreshTimeOutAfterMillis: number) => boolean
   getAliveTimeInMillis: (k: string) => number
 }

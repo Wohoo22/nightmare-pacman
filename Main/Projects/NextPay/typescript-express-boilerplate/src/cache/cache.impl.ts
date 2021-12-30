@@ -12,10 +12,6 @@ function convertToMillis(time: Time) {
 }
 
 export default function implementCache(md5: any, storage: Storage): Cache {
-  function setSize(value: number): void {
-    storage.setSize(value);
-  }
-
   async function getData(input: GetDataInput): Promise<any> {
     const key: string = input.identifier + md5(input.args);
     const status: string = checkDataStatusInCache({
@@ -74,7 +70,6 @@ export default function implementCache(md5: any, storage: Storage): Cache {
   }
 
   return {
-    setSize,
     getData,
   };
 }

@@ -1,5 +1,4 @@
 export default interface Cache {
-  setSize: (value: number) => void
   getData: (input: GetDataInput) => Promise<any>
 }
 
