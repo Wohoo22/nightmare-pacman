@@ -5,28 +5,28 @@ function currentMillis(): number {
 }
 
 export default function implementStorage(size: number): Storage {
-  const cache = new Map<string, any>();
+  const store = new Map<string, any>();
   const insertedAtMillis = new Map<string, any>();
   const startRefreshingAtMillis = new Map<string, number>();
 
-  const get = (k: string) => cache.get(k);
+  const get = (k: string) => store.get(k);
 
   const removeRandomKeyInCache = (): void => {
     const getRandomKey = () => {
-      const keys: any = Array.from(cache.keys());
+      const keys: any = Array.from(store.keys());
       return keys[Math.floor(Math.random() * keys.length)];
     };
-    cache.delete(getRandomKey());
+    store.delete(getRandomKey());
   };
   const set = (k: string, v: any) => {
-    if (cache.size >= size) {
+    if (store.size >= size) {
       removeRandomKeyInCache();
     }
-    cache.set(k, v);
+    store.set(k, v);
     insertedAtMillis.set(k, currentMillis());
   };
 
-  const has = (k: string) => cache.has(k);
+  const has = (k: string) => store.has(k);
 
   const startRefreshing = (k: string): void => {
     startRefreshingAtMillis.set(k, currentMillis());
