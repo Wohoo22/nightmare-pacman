@@ -1,3 +1,3 @@
 Requirement
-  Node 12
+  Node 10
   Vscode >>dùng Indentation: spaces(2) <<
