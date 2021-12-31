@@ -3,9 +3,11 @@ import axios from 'axios';
 export default function initVerifyAccessTokenMiddleware({
   ignoredPaths,
   authorizationUrl,
+  operationDataUrl,
 }: {
   ignoredPaths: string[],
   authorizationUrl: string
+  operationDataUrl: string
 }) {
   const isIgnored = (path: string): boolean => {
     const pathSegments: string[] = path.split('/');
