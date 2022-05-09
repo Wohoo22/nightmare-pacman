@@ -1,9 +1,16 @@
 export default interface Storage {
-  set: (k: string, v: any) => void
-  get: (k: string) => void
-  has: (k: string) => boolean
+  set: (k: string, v: StorageData) => void
+  get: (k: string, args: any) => StorageData
   startRefreshing: (k: string) => void
   stopRefreshing: (k: string) => void
-  isRefreshing: (k: string, refreshTimeOutAfterMillis: number) => boolean
-  getAliveTimeInMillis: (k: string) => number
+  isRefreshing: (k: string) => boolean,
+  size: () => number
+}
+
+export interface StorageData {
+  args: any;
+  response: any;
+  expiredAtInMillis: number;
+  refreshAtInMillis: number;
+  layer?: number
 }
