@@ -22,13 +22,13 @@ import utils.collections.Collection;
  */
 public class Set<T> implements Collection<T> {
     @DomainConstraint(type = "Vector", optional = false)
-    private Vector<T> elements; // use generic syntax
+    private final Vector<T> elements; // use generic syntax
 
     /**
      * @effects initialise this to be empty
      */
     public Set() {
-        elements = new Vector<>();
+        this.elements = new Vector<>();
     }
 
     /**
@@ -40,9 +40,9 @@ public class Set<T> implements Collection<T> {
      *     add x to this, i.e., this_post = this + {x}
      */
     @DOpt(type = OptType.MutatorAdd)
-    public void insert(T x) {
-        if (getIndex(x) < 0)
-            elements.add(x);
+    public void insert(final T x) {
+        if (this.getIndex(x) < 0)
+            this.elements.add(x);
     }
 
     /**
@@ -55,12 +55,12 @@ public class Set<T> implements Collection<T> {
      *     this_post = this - {x}
      */
     @DOpt(type = OptType.MutatorRemove)
-    public void remove(T x) {
-        int i = getIndex(x);
+    public void remove(final T x) {
+        final int i = this.getIndex(x);
         if (i < 0)
             return;
-        elements.set(i, elements.lastElement());
-        elements.remove(elements.size() - 1);
+        this.elements.set(i, this.elements.lastElement());
+        this.elements.remove(this.elements.size() - 1);
     }
 
     /**
@@ -71,8 +71,8 @@ public class Set<T> implements Collection<T> {
      *    return false
      */
     @DOpt(type = OptType.ObserverContains)
-    public boolean isIn(T x) {
-        return (getIndex(x) >= 0);
+    public boolean isIn(final T x) {
+        return (this.getIndex(x) >= 0);
     }
 
 
@@ -81,7 +81,7 @@ public class Set<T> implements Collection<T> {
      */
     @DOpt(type = OptType.ObserverSize)
     public int size() {
-        return elements.size();
+        return this.elements.size();
     }
 
     /**
@@ -93,11 +93,11 @@ public class Set<T> implements Collection<T> {
      */
     @DOpt(type = OptType.Observer)
     public Vector<T> getElements() {
-        if (size() == 0)
+        if (this.size() == 0)
             return null;
         else {
-            Vector<T> els = new Vector<>();
-            for (T e : elements) els.add(e);
+            final Vector<T> els = new Vector<>();
+            for (final T e : this.elements) els.add(e);
             return els;
         }
     }
@@ -110,9 +110,9 @@ public class Set<T> implements Collection<T> {
      *    return an arbitrary element of this
      */
     public T choose() throws IllegalStateException {
-        if (size() == 0)
+        if (this.size() == 0)
             throw new IllegalStateException("Set.choose: set is empty");
-        return elements.lastElement();
+        return this.elements.lastElement();
     }
 
     /**
@@ -122,9 +122,9 @@ public class Set<T> implements Collection<T> {
      *  else
      *    return -1
      */
-    private int getIndex(T x) {
-        for (int i = 0; i < elements.size(); i++) {
-            if (x.equals(elements.get(i)))
+    private int getIndex(final T x) {
+        for (int i = 0; i < this.elements.size(); i++) {
+            if (x.equals(this.elements.get(i)))
                 return i;
         }
 
@@ -133,12 +133,12 @@ public class Set<T> implements Collection<T> {
 
     @Override
     public String toString() {
-        if (size() == 0)
+        if (this.size() == 0)
             return "Set:{ }";
 
-        String s = "Set:{" + elements.elementAt(0).toString();
-        for (int i = 1; i < size(); i++) {
-            s = s + " , " + elements.elementAt(i).toString();
+        String s = "Set:{" + this.elements.elementAt(0).toString();
+        for (int i = 1; i < this.size(); i++) {
+            s = s + " , " + this.elements.elementAt(i).toString();
         }
 
         return s + "}";
@@ -152,14 +152,14 @@ public class Set<T> implements Collection<T> {
      *     return false
      */
     public boolean repOK() {
-        if (elements == null)
+        if (this.elements == null)
             return false;
 
-        for (int i = 0; i < elements.size(); i++) {
-            T x = elements.get(i);
+        for (int i = 0; i < this.elements.size(); i++) {
+            final T x = this.elements.get(i);
 
-            for (int j = i + 1; j < elements.size(); j++) {
-                if (elements.get(j).equals(x))
+            for (int j = i + 1; j < this.elements.size(); j++) {
+                if (this.elements.get(j).equals(x))
                     return false;
             }
         }

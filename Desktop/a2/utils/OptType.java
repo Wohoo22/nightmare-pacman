@@ -46,7 +46,7 @@ public enum OptType {
    *    return false
    */
   public boolean isMutator() {
-    return name().startsWith(Mutator.name());
+    return this.name().startsWith(OptType.Mutator.name());
   }
   
   /**
@@ -57,7 +57,7 @@ public enum OptType {
    *    return false
    */
   public boolean isObserver() {
-    return name().startsWith(Observer.name());
+    return this.name().startsWith(OptType.Observer.name());
   }
 
   /**
@@ -65,7 +65,7 @@ public enum OptType {
    *  if this is {@link #Constructor} 
    */
   public boolean isConstructor() {
-    return this.equals(Constructor);
+    return equals(OptType.Constructor);
   }
 
   /**
@@ -73,7 +73,7 @@ public enum OptType {
    *  if this is {@link #Default} 
    */
   public boolean isDefault() {
-    return this.equals(Default);
+    return equals(OptType.Default);
   }
 
   /**
@@ -81,7 +81,7 @@ public enum OptType {
    *  if this is {@link #Helper} 
    */
   public boolean isHelper() {
-    return this.equals(Helper);
+    return equals(OptType.Helper);
   }
 
   /**
@@ -89,6 +89,6 @@ public enum OptType {
    * is this {@link #Other}?
    */
   public boolean isOther() {
-    return this.equals(Other);
+    return equals(OptType.Other);
   }
 }

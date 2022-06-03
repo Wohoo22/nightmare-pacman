@@ -9,7 +9,7 @@ package utils;
  *
  */
 public class NotPossibleException extends RuntimeException {
-  public NotPossibleException(String s) {
+  public NotPossibleException(final String s) {
     super(s);
   }
 }

@@ -5,18 +5,18 @@ import utils.DomainConstraint;
 public class PC {
 
     @DomainConstraint(mutable = true, optional = false, length = 20)
-    private String model;
+    private final String model;
     @DomainConstraint(mutable = false, optional = false, min = 1984)
-    private int year;
+    private final int year;
     @DomainConstraint(mutable = false, optional = false, length = 15)
-    private String manufacturer;
+    private final String manufacturer;
     @DomainConstraint(mutable = true, optional = false)
-    private Set<String> comps;
+    private final Set<String> comps;
 
-    public PC(String model,
-              int year,
-              String manufacturer,
-              Set<String> comps) {
+    public PC(final String model,
+              final int year,
+              final String manufacturer,
+              final Set<String> comps) {
         this.model = model;
         this.year = year;
         this.manufacturer = manufacturer;
@@ -25,48 +25,48 @@ public class PC {
 
     @Override
     public String toString() {
-        return "PC<" + model + "," + year + "," + manufacturer + "," + "Set{" + compsToString() + "}>";
+        return "PC<" + this.model + "," + this.year + "," + this.manufacturer + "," + "Set{" + this.compsToString() + "}>";
     }
 
     private String compsToString() {
-        StringBuilder s = new StringBuilder();
-        for (int i = 0; i < comps.size(); i++) {
-            s.append(comps.getElements().get(i));
-            if (i < comps.size() - 1)
+        final StringBuilder s = new StringBuilder();
+        for (int i = 0; i < this.comps.size(); i++) {
+            s.append(this.comps.getElements().get(i));
+            if (i < this.comps.size() - 1)
                 s.append(",");
         }
         return s.toString();
     }
 
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(final Object obj) {
         if ((obj instanceof PC) == false)
             return false;
-        PC other = (PC) obj;
-        if (this.model.equals(other.model) == false
-                || this.year != other.year
-                || this.manufacturer.equals(other.manufacturer) == false
-                || this.comps.size() != other.comps.size())
+        final PC other = (PC) obj;
+        if (model.equals(other.model) == false
+                || year != other.year
+                || manufacturer.equals(other.manufacturer) == false
+                || comps.size() != other.comps.size())
             return false;
-        for (String thisComp : this.comps.getElements())
+        for (final String thisComp : comps.getElements())
             if (other.comps.isIn(thisComp) == false)
                 return false;
         return true;
     }
 
     public String getModel() {
-        return model;
+        return this.model;
     }
 
     public int getYear() {
-        return year;
+        return this.year;
     }
 
     public String getManufacturer() {
-        return manufacturer;
+        return this.manufacturer;
     }
 
     public Set<String> getComps() {
-        return comps;
+        return this.comps;
     }
 }

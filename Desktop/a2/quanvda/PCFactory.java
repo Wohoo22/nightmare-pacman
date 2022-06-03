@@ -4,13 +4,13 @@ public class PCFactory {
     private static final PCFactory instance = new PCFactory();
 
     public static PCFactory getInstance() {
-        return instance;
+        return PCFactory.instance;
     }
 
-    public PC createPC(String model,
-                       int year,
-                       String manufacturer,
-                       Set<String> comps) {
+    public PC getPC(final String model,
+                    final int year,
+                    final String manufacturer,
+                    final Set<String> comps) {
         return new PC(model,
                 year,
                 manufacturer,

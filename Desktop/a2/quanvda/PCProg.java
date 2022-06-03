@@ -5,7 +5,6 @@ import utils.NotPossibleException;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 import java.util.Vector;
 
 import static utils.TextIO.*;
@@ -19,13 +18,13 @@ import static utils.TextIO.*;
  */
 public class PCProg {
     @DomainConstraint(mutable = true, optional = false)
-    private Set<PC> objs;
+    private final Set<PC> objs;
 
     /**
      * @effects initialise this to have an empty set of PCs
      */
     public PCProg() {
-        objs = new Set<>();
+        this.objs = new Set<>();
     }
 
     /**
@@ -36,10 +35,10 @@ public class PCProg {
      * display nothing and return null
      */
     public String displayReport() {
-        if (objs.size() > 0) {
-            Vector<PC> pcs = objs.getElements();
+        if (this.objs.size() > 0) {
+            final Vector<PC> pcs = this.objs.getElements();
 
-            PCReport reportObj = new PCReport();
+            final PCReport reportObj = new PCReport();
             return reportObj.displayReport(pcs.toArray(new PC[pcs.size()]));
         } else {
             return null;
@@ -50,8 +49,8 @@ public class PCProg {
      * @effects save report to a file pcs.txt in the same directory
      * as the program's
      */
-    public void saveReport(String report) {
-        String fileName = "pcs.txt";
+    public void saveReport(final String report) {
+        final String fileName = "pcs.txt";
         writeFile(fileName);
         putln(report);
         writeStandardOutput();
@@ -60,17 +59,17 @@ public class PCProg {
     public void createObjects() {
         while (true) {
             putln("Enter new PC:");
-            List<String> props = new ArrayList<>();
+            final List<String> props = new ArrayList<>();
             while (true) {
-                String s = getln();
+                final String s = getln();
                 putln();
                 if (s.isEmpty()) break;
                 else props.add(s);
             }
-            Set<String> comps = new Set<>();
+            final Set<String> comps = new Set<>();
             for (int i = 3; i < props.size(); i++) comps.insert(props.get(i));
-            objs.insert(
-                    PCFactory.getInstance().createPC(
+            this.objs.insert(
+                    PCFactory.getInstance().getPC(
                             props.get(0),
                             Integer.valueOf(props.get(1)),
                             props.get(2),
@@ -84,7 +83,7 @@ public class PCProg {
     }
 
     public Set<PC> getObjects() {
-        return objs;
+        return this.objs;
     }
 
     /**
@@ -99,26 +98,26 @@ public class PCProg {
      * else
      * end
      */
-    public static void main(String[] args) {
+    public static void main(final String[] args) {
         //
-        PCProg prog = new PCProg();
+        final PCProg prog = new PCProg();
 
         // create objects
         try {
             prog.createObjects();
             // display report
-            String report = prog.displayReport();
+            final String report = prog.displayReport();
 
             if (report != null) {
                 // prompt user to save report
                 putln("Save report to file? [Y/N]");
-                String toSave = getln();
+                final String toSave = getln();
                 if (toSave.equals("Y")) {
                     prog.saveReport(report);
                     putln("report saved");
                 }
             }
-        } catch (NotPossibleException e) {
+        } catch (final NotPossibleException e) {
             e.printStackTrace();
             System.err.printf("%s: %s%n", e, e.getMessage());
         }

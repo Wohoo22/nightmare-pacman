@@ -2,20 +2,20 @@ package a2.quanvda;
 
 public class PCReport {
     private String blankString(int size) {
-        StringBuilder s = new StringBuilder();
+        final StringBuilder s = new StringBuilder();
         while (size-- > 0) s.append(" ");
         return s.toString();
     }
 
-    private int length(int num) {
+    private int length(final int num) {
         return String.valueOf(num).length();
     }
 
-    private String pcToString(PC pc) {
-        String sModel = blankString(20 - pc.getModel().length()) + pc.getModel();
-        String sYear = blankString(6 - length(pc.getYear())) + pc.getYear();
-        String sManu = blankString(15 - pc.getManufacturer().length()) + pc.getManufacturer();
-        StringBuilder sComps = new StringBuilder();
+    private String pcToString(final PC pc) {
+        final String sModel = this.blankString(20 - pc.getModel().length()) + pc.getModel();
+        final String sYear = this.blankString(6 - this.length(pc.getYear())) + pc.getYear();
+        final String sManu = this.blankString(15 - pc.getManufacturer().length()) + pc.getManufacturer();
+        final StringBuilder sComps = new StringBuilder();
         sComps.append("[");
         for (int i = 0; i < pc.getComps().size(); i++) {
             sComps.append(pc.getComps().getElements().get(i));
@@ -28,8 +28,8 @@ public class PCReport {
         return sModel + " " + sYear + " " + sManu + " " + sComps;
     }
 
-    public String displayReport(PC[] objs) {
-        StringBuilder result = new StringBuilder();
+    public String displayReport(final PC[] objs) {
+        final StringBuilder result = new StringBuilder();
         result
                 .append("---------------------------------------------------------------------------------------------------")
                 .append('\n')
@@ -38,10 +38,10 @@ public class PCReport {
                 .append("---------------------------------------------------------------------------------------------------")
                 .append('\n');
         int i = 1;
-        for (PC pc : objs) {
-            result.append(blankString(3 - length(i)) + i)
+        for (final PC pc : objs) {
+            result.append(this.blankString(3 - this.length(i)) + i)
                     .append(" ")
-                    .append(pcToString(pc))
+                    .append(this.pcToString(pc))
                     .append("\n");
             i++;
         }

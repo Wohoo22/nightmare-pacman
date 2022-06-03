@@ -51,7 +51,7 @@ import java.lang.annotation.Target;
  * @version 2017
  */
 @Retention(RetentionPolicy.RUNTIME)
-@Target(value={CONSTRUCTOR, FIELD, LOCAL_VARIABLE, METHOD, PACKAGE, PARAMETER, TYPE})
+@Target({CONSTRUCTOR, FIELD, LOCAL_VARIABLE, METHOD, PACKAGE, PARAMETER, TYPE})
 @Documented
 public @interface AttrRef {
   String value(); 
